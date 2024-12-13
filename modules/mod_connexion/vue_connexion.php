@@ -1,15 +1,11 @@
 <?php
     class Vue_connexion{
 
-        public function menu(){
-            echo'<a href="index.php?module=mod_connexion&action=connexion">Se connecter</a></br>';
-        }
-
         public function form_connexion(){
-            echo '
+        echo '
             <form action="index.php?module=mod_connexion&action=connexion" METHOD="POST">
-                login : <input type ="text" name="login" ></input><br>
-                Mot de passe : <input type="password" name="password"></input>
+                login : <input type ="text" name="login" required ><br>
+                Mot de passe : <input type="password" name="password" required>
                 <input type="submit" value="Se connecter"/>
             </form>';
         }
@@ -19,16 +15,9 @@
         }
 
         public function messageErreurConnexion(){
-            echo "Echec de la connexion";
+            echo "login ou mot de passe incorrecte";
         }
 
-        public function deja_connecte(){
-            echo"Vous êtes déjà connecté";
-        }
-
-        public function util_inconnu(){
-            echo"Utilisateur inconnu";
-        }
 
         public function deconnexion(){
             echo"Déconnecté avec succès !";

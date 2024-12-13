@@ -1,57 +1,62 @@
 <?php
-    require_once "modules/mod_connexion/modele_connexion.php";
-    require_once "modules/mod_connexion/vue_connexion.php";
-    
-    class Cont_connexion{
-        private $modele;
-        private $vue;
-        private $action;
+require_once "modules/mod_connexion/modele_connexion.php";
+require_once "modules/mod_connexion/vue_connexion.php";
+require_once 'modules/admin/mod_admin.php';
+session_start();
+class Cont_connexion {
+    private $modele;
+    private $vue;
+    private $action;
 
-        public function __construct(){
-            $this->modele = new Modele_connexion();
-            $this->vue = new Vue_connexion();
-            $this->action = isset($_GET["action"]) ? $_GET["action"] :"";
+    public function __construct() {
+        $this->modele = new Modele_connexion();
+        $this->vue = new Vue_connexion();
+        $this->action = isset($_GET["action"]) ? $_GET["action"] : "bienvenue";
+    }
+
+    public function exec() {
+        switch ($this->action) {
+            case 'bienvenue':
+                $this->vue->form_connexion();
+            break;
+            case 'connexion':
+                $this->verifConnexion();
+            break;
+            case "deconnexion" :
+                $this->deconnexion();
+            break;
         }
-
-        public function exec(){
-            $this->vue->menu();
-            switch($this->action){
-                case 'connexion' :
-                    $this->connexion();
-                break;
-
-                case "deconnexion" :
-                    $this->deconnexion();
-                break;
-            }
-        }
-
-        public function connexion(){
+        if (isset($_SESSION['login'])) {
             
-            $this->vue->form_connexion();
-
-            $login = isset ($_POST['login']) ? $_POST['login'] : exit;
-            $password = isset ($_POST['password']) ? $_POST['password'] : exit;
-            $util = $this->modele->getUtilisateur($login);
-            
-            if ($util === false) {
-                $this->vue->util_inconnu();
-            }
-
-            else if ($this->modele->getmdp($_POST['login']) == $_POST['password']) {
-                
-                $_SESSION['login'] = $login;
-                $this->vue->messageConnexionReussie();
-            }
-            else {
-                echo $_POST['password'];
-                //$this->vue->messageErreurConnexion();
-            }
-        }
-
-        public function deconnexion () {
-            unset($_SESSION['login']);
-            $this->vue->deconnexion();
+            // Si connecté, rediriger ou afficher un message
+            header('Location: index.php?module=mod_admin&action=ajoutEns');
+            exit;
         }
     }
+
+    
+    public function verifConnexion() {
+       
+        $login = isset($_POST['login']) ? htmlspecialchars($_POST['login']) : null;
+        $password = isset($_POST['password']) ? htmlspecialchars($_POST['password']) : null;
+
+        if ( $this->modele->verifuser($login, $password)) { 
+            $_SESSION['login'] = $login;
+            $this->vue->messageConnexionReussie();
+            header('Location: index.php?module=mod_admin&action=ajoutEns');
+            exit;
+        } else {
+            $this->vue->form_connexion();
+            $this->vue->messageErreurConnexion();
+        }
+    }
+    public function deconnexion() {
+        // Détruire toutes les variables de session
+        $_SESSION = [];
+        session_destroy();
+        header('Location: index.php?module=mod_connexion&action=bienvenue');
+        exit;
+    }
+    
+}
 ?>

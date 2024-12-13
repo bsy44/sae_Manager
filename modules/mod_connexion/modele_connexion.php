@@ -8,12 +8,25 @@
             return $req->fetch();
         }
 
+        public function verifuser($login, $mdp){
+            $sql = 'select password from enseignant where login = ? UNION select password from etudiant where login = ? ';
+            $req = self::$bdd->prepare($sql);
+            $req->execute([$login, $login]);
+            $result = $req->fetch();
+            if ($result && isset($result['password'])) {
+                return password_verify($mdp, $result['password']);
+            }
+        
+            // Si aucun utilisateur trouvé, retournez false
+            return false;
+            
+        }
+
         public function getmdp($id){
             $sql = 'select password from enseignant where login = ? UNION select password from etudiant where login = ? ';
             $req = self::$bdd->prepare($sql);
             $req->execute([$id, $id]);
-            $mdp = $req->fetch()[0];
-            echo $mdp;
+            return $req->fetch()[0];
         }
 
         public function get_passwdHash($mdp){
