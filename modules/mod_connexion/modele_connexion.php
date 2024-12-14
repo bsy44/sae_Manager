@@ -22,13 +22,16 @@
             
         }
 
-        public function getmdp($id){
-            $sql = 'select password from enseignant where login = ? UNION select password from etudiant where login = ? ';
+        public function getRole($login){
+            $sql = 'select * from enseignant where login = ?';
             $req = self::$bdd->prepare($sql);
-            $req->execute([$id, $id]);
-            return $req->fetch()[0];
+            $req->execute([$login]);
+            $result = $req->fetch();
+            if($result){
+                return  "ensiseganant";
+            }
+            return "admin";
         }
-
         public function get_passwdHash($mdp){
             return password_hash($mdp, PASSWORD_DEFAULT);
         }

@@ -20,20 +20,20 @@ class Cont_admin{
 
     public function ajoutEns() {
         $prenom = isset($_POST['prenom']) ? htmlspecialchars($_POST['prenom']) : exit;
-        $nom = isset($_POST['nom']) ? htmlspecialchars($_POST['nom']) : exit;
-        $login = isset($_POST['login']) ? htmlspecialchars($_POST['login']) : exit;
-        $password = isset($_POST['password']) ? htmlspecialchars($_POST['password']) : exit;
+        $nom = isset($_POST['nom']) ? htmlspecialchars($_POST['nom']) : null;
+        $login = isset($_POST['login']) ? htmlspecialchars($_POST['login']) : null;
+        $password = isset($_POST['password']) ? htmlspecialchars($_POST['password']) : null;
 
-        $this->modele_admin->ajouterEns($_POST['prenom'], $_POST['nom'], $_POST['login'], $_POST['pwd']); 
+        $this->modele_admin->ajouterEns($prenom, $nom, $login, $password); 
+        
     }
 
     public function ajoutEtu() {
         $prenom = isset($_POST['prenom']) ? htmlspecialchars($_POST['prenom']) : exit;
-        $nom = isset($_POST['nom']) ? htmlspecialchars($_POST['nom']) : exit;
-        $login = isset($_POST['login']) ? htmlspecialchars($_POST['login']) : exit;
-        $password = isset($_POST['password']) ? htmlspecialchars($_POST['password']) : exit;
-        $this->modele_admin->ajouterEtu($_POST['prenom'], $_POST['nom'], $_POST['login'], $_POST['pwd']); 
-        
+        $nom = isset($_POST['nom']) ? htmlspecialchars($_POST['nom']) : null;
+        $login = isset($_POST['login']) ? htmlspecialchars($_POST['login']) : null;
+        $password = isset($_POST['password']) ? htmlspecialchars($_POST['password']) : null;
+        $this->modele_admin->ajouterEtu($prenom, $nom, $login, $password); 
     }
     
 
@@ -47,6 +47,7 @@ class Cont_admin{
                 $this->ajoutEtu();
                 break;
             case 'ajoutEns':
+                
                 $this->ajoutEns();
                 break;
         }

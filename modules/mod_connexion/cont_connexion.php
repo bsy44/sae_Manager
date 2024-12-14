@@ -28,8 +28,8 @@ class Cont_connexion {
         }
         if (isset($_SESSION['login'])) {
             
-            // Si connecté, rediriger ou afficher un message
-            header('Location: index.php?module=mod_admin&action=ajoutEns');
+            //Il faura rediriger en fonction de leur role 
+            header('Location: index.php?module=mod_admin');
             exit;
         }
     }
@@ -43,7 +43,15 @@ class Cont_connexion {
         if ( $this->modele->verifuser($login, $password)) { 
             $_SESSION['login'] = $login;
             $this->vue->messageConnexionReussie();
-            header('Location: index.php?module=mod_admin&action=ajoutEns');
+
+            // En fonction de du role: redirection vers la bonne page 
+            if ($this->modele->getRole($login) == "admin"){
+                header('Location: index.php?module=mod_admin');
+            }
+            else{
+                echo "Vous êtes enseignant : Votre table de board est cours de consutruction";
+            }
+            
             exit;
         } else {
             $this->vue->form_connexion();
