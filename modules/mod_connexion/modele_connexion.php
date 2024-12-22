@@ -2,38 +2,32 @@
     require_once 'connexion.php';
     class Modele_connexion extends Connexion{
 
-        public function getUtilisateur($login) {
-            $req = self::$bdd->prepare("SELECT * from enseignant WHERE login=? UNION SELECT * from etudiant WHERE login=?");
-            $req->execute([$login, $login]);
-            return $req->fetch();
-        }
 
-        public function verifuser($login, $mdp){
-            $sql = 'select password from enseignant where login = ? UNION select password from etudiant where login = ? ';
-            $req = self::$bdd->prepare($sql);
-            $req->execute([$login, $login]);
-            $result = $req->fetch();
-            if ($result && isset($result['password'])) {
-                return password_verify($mdp, $result['password']);
-            }
-        
-            // Si aucun utilisateur trouvé, retournez false
-            return false;
-            
-        }
-
-        public function getRole($login){
-            $sql = 'select * from enseignant where login = ?';
+        public function verifuser($login, $mdp) {
+            $sql = 'SELECT password FROM user WHERE login = ?';
             $req = self::$bdd->prepare($sql);
             $req->execute([$login]);
             $result = $req->fetch();
-            if($result){
-                return  "ensiseganant";
+            
+            // Vérifiez si un utilisateur est trouvé et si le hachage correspond
+            if ($result && isset($result['password'])) {
+        
+                return password_verify($mdp, $result['password']);
             }
-            return "admin";
+        
+            return false;
         }
-        public function get_passwdHash($mdp){
-            return password_hash($mdp, PASSWORD_DEFAULT);
+        
+
+        public function getRole($login){
+            $sql = 'select role from user where login = ?';
+            $req = self::$bdd->prepare($sql);
+            $req->execute([$login]);
+            $result = $req->fetch();
+            if ($result && isset($result['role'])) {
+                return $result['role'];
+            }
         }
+
     }
 ?>

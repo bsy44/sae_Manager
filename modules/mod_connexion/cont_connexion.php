@@ -1,7 +1,7 @@
 <?php
 require_once "modules/mod_connexion/modele_connexion.php";
 require_once "modules/mod_connexion/vue_connexion.php";
-require_once 'modules/admin/mod_admin.php';
+
 session_start();
 class Cont_connexion {
     private $modele;
@@ -28,9 +28,23 @@ class Cont_connexion {
         }
         if (isset($_SESSION['login'])) {
             
-            //Il faura rediriger en fonction de leur role 
-            header('Location: index.php?module=mod_admin');
+            //Il faura rediriger en fonction de leur role
+            $this->redirectionRole($this->modele->getRole(($_POST['login'])));
             exit;
+        }
+    }
+
+    public function redirectionRole($role){
+        switch($role){
+            case 'enseignant':
+                header('Location: index.php?module=mod_enseignant');
+                break;
+            case 'etudiant':
+                header('Location: index.php?module=mod_etudiant');
+                break;
+            case 'admin':
+                header('Location: index.php?module=mod_admin');
+                break;
         }
     }
 
@@ -43,15 +57,7 @@ class Cont_connexion {
         if ( $this->modele->verifuser($login, $password)) { 
             $_SESSION['login'] = $login;
             $this->vue->messageConnexionReussie();
-
-            // En fonction de du role: redirection vers la bonne page 
-            if ($this->modele->getRole($login) == "admin"){
-                header('Location: index.php?module=mod_admin');
-            }
-            else{
-                echo "Vous êtes enseignant : Votre table de board est cours de consutruction";
-            }
-            
+            $this->redirectionRole($this->modele->getRole($login));
             exit;
         } else {
             $this->vue->form_connexion();
