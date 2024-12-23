@@ -12,6 +12,7 @@ class Cont_connexion {
         $this->modele = new Modele_connexion();
         $this->vue = new Vue_connexion();
         $this->action = isset($_GET["action"]) ? $_GET["action"] : "bienvenue";
+       
     }
 
     public function exec() {
@@ -27,26 +28,28 @@ class Cont_connexion {
             break;
         }
         if (isset($_SESSION['login'])) {
-            
-            //Il faura rediriger en fonction de leur role
-            $this->redirectionRole($this->modele->getRole(($_POST['login'])));
+            $role = $this->modele->getRole($_SESSION['login']); // Utiliser la session pour récupérer le login
+            $this->redirectionRole($role);
             exit;
         }
     }
 
-    public function redirectionRole($role){
-        switch($role){
+    public function redirectionRole($role) {
+        switch ($role) {
             case 'enseignant':
-                header('Location: index.php?module=mod_enseignant');
+                header("Location: index.php?module=mod_enseignant");
                 break;
             case 'etudiant':
-                header('Location: index.php?module=mod_etudiant');
+                header("Location: index.php?module=mod_etudiant");
                 break;
             case 'admin':
-                header('Location: index.php?module=mod_admin');
+                header("Location: index.php?module=mod_admin");
                 break;
         }
+        exit;
     }
+    
+    
 
     
     public function verifConnexion() {
@@ -56,7 +59,7 @@ class Cont_connexion {
 
         if ( $this->modele->verifuser($login, $password)) { 
             $_SESSION['login'] = $login;
-            $this->vue->messageConnexionReussie();
+            //saveLogin($login);
             $this->redirectionRole($this->modele->getRole($login));
             exit;
         } else {

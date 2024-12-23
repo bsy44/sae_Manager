@@ -10,14 +10,9 @@
             </form>';
         }
 
-        public function messageConnexionReussie(){
-            echo "Connexion établie avec succès !";
-        }
-
         public function messageErreurConnexion(){
             echo "login ou mot de passe incorrecte";
         }
-
 
         public function deconnexion(){
             echo"Déconnecté avec succès !";
