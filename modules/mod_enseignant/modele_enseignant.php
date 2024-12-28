@@ -25,6 +25,33 @@ class modele_enseignant extends connexion{
         $requete->execute([$login]);
         return $requete->fetchAll();
     }
+
+    public function peutModifier($idEns, $idProjet){
+        $requete  = self::$bdd->prepare('select idEns from projet where idprojet = ?');        
+        $requete->execute([$idProjet]);
+        $res = $requete->fetch();
+        $requete2  = self::$bdd->prepare('select idEns from estCoResponsable where idprojet = ?');        
+        $requete2->execute([$idProjet]);
+        $res2 = $requete2->fetch();
+        if ($res && $idEns == $res['idEns']  || $res2 && $idEns == $res2['idEns'] ){
+            return true;
+        }
+        else{
+            return false;
+        };
+    }
+
+    public function getRessource($idProjet){
+        $requete  = self::$bdd->prepare('select * from ressource where idprojet = ?');        
+        $requete->execute([$idProjet]);
+        return $requete->fetchAll();
+    }
+
+    public function getDepot($idProjet){
+        $requete  = self::$bdd->prepare('select * from Depot where idprojet = ?');        
+        $requete->execute([$idProjet]);
+        return $requete->fetchAll();
+    }
     
 }
 

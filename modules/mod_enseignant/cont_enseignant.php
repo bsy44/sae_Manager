@@ -1,18 +1,21 @@
 <?php
 include_once 'modele_enseignant.php';
 include_once 'vue_enseignant.php';
-//session_start();
 
 class Cont_enseignant{
     private $vue_enseignant;
     private $modele_enseignant;
     private $action;
-
+    private $idProjet;
     public function __construct(){
         $this->vue_enseignant = new vue_enseignant();    
         $this->modele_enseignant = new modele_enseignant();
         $this->action =  isset($_GET['action'])?  $_GET['action'] : "Bienvenue";
-       
+        
+        if (isset($_GET['idprojet'])) {
+            $_SESSION['idProjet'] = $_GET['idprojet'];
+        }
+    
     }
 
     public function acceuil(){
@@ -34,6 +37,21 @@ class Cont_enseignant{
             case "ajoutsae":
                 $this->ajoutersae();
                 break;
+            case "consultsae":
+                $this->afficheSAE();
+                break;
+            case "btnajoutdepot":
+                $this->vue_enseignant->formulaireAjoutdepot();
+                break;
+            case "btnajoutressource":
+                $this->vue_enseignant->formulaireAjoutresource();
+                break;
+            case "ajoutressource":
+                $this->afficheSAE();
+                break;
+            case "ajoutressource":
+                $this->afficheSAE();
+                break;
         }
     }
 
@@ -48,11 +66,21 @@ class Cont_enseignant{
         $annee = isset($_POST['annee']) ? htmlspecialchars($_POST['annee']) : null;
         $semestre = isset($_POST['semestre']) ? htmlspecialchars($_POST['semestre']) : null;
         $idEns = $this->getIdEns();
-        $this->acceuil();
         if ($this->modele_enseignant->ajouterSAE($intitule, $description, $lien, $annee, $semestre, $idEns)){
-            echo "Erreur ";
+            $this->acceuil();
+        }
+        else{
             $this->vue_enseignant->formulaireAjoutSAE();
         }
+    }
+    
+    public function afficheSAE(){
+        if ($this->modele_enseignant->peutModifier($this->getIdEns(), $_SESSION['idProjet'])){
+            $this->vue_enseignant->outilsAjout();
+        }
+        $this->vue_enseignant->listeressource($this->modele_enseignant-> getRessource($_SESSION['idProjet']));
+        //Ne marche pas car le strcture de la table n'est pas bon 
+        //$this->vue_enseignant->listeDepot($this->modele_enseignant-> getDepot($_SESSION['idProjet']));
     }
     
 }

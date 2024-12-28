@@ -35,32 +35,83 @@ class vue_enseignant{
             echo "<p>Aucun projet SAE en cours </p>";
             return;
         }
-    
-        echo "<table border='1'>";
-        echo "<thead>";
-        echo "<tr>";
-        echo "<th>ID Projet</th>";
-        echo "<th>Intitulé</th>";
-        echo "<th>Description</th>";
-        echo "<th>Lien</th>";
-        echo "<th>Année</th>";
-        echo "<th>Semestre</th>";
-        echo "</tr>";
-        echo "</thead>";
-        echo "<tbody>";
-    
+        echo '<h3> Liste SAE </h3>';
+        echo "<table>";
         foreach ($liste as $projet) {
-            echo "<tr>";
-            echo "<td>" . htmlspecialchars($projet['idProjet']) . "</td>";
-            echo "<td>" . htmlspecialchars($projet['intitule']) . "</td>";
-            echo "<td>" . htmlspecialchars($projet['description']) . "</td>";
-            echo "<td><a href='" . htmlspecialchars($projet['lien']) . "' target='_blank'>Voir le projet</a></td>";
-            echo "<td>" . htmlspecialchars($projet['annee']) . "</td>";
-            echo "<td>" . htmlspecialchars($projet['semestre']) . "</td>";
-            echo "</tr>";
+            echo '<td><a href=index.php?module=mod_enseignant&action=consultsae&idprojet=' . htmlspecialchars($projet['idProjet']) . '>' . htmlspecialchars($projet['intitule']) . '</a></td>';
         }
-    
-        echo "</tbody>";
+        echo "</table>";
+    }
+
+    public function outilsAjout(){
+        echo '
+        <form action="index.php?module=mod_enseignant&action=btnajoutressource" method="POST">
+            <input type="submit" value="Ajouter Ressource">
+        </form>
+        <form action="index.php?module=mod_enseignant&action=btnajoutdepot" method="POST">
+            <input type="submit" value="Ajouter Depot">
+        </form>
+        ';
+    }
+
+    public function formulaireAjoutresource(){
+        echo '
+             <form action="index.php?module=mod_enseignant&action=ajoutressource" method="POST">
+                <h3>Ajout Ressource</h3>
+                <table>
+                    <tr>
+                        <td>Nom :</td><td><input type="text" name="nomRessource" required></td>
+                        <td>Type :</td><td><input type="text" name="typeRessource" required></td>
+                        <td><input type="submit" value="Ajouter"></td>
+                    </tr>
+                </table>
+            </form>
+        ';
+    }
+
+    public function formulaireAjoutdepot(){
+        echo '
+             <form action="index.php?module=mod_enseignant&action=ajoutdepot" method="POST">
+                <h3>Ajout Depot</h3>
+                <table>
+                    <tr>
+                        <td>Nom :</td><td><input type="text" name="nomDepot" required></td>
+                        <td>Date de création:</td><td><input type="Date" name="DateCrea" required></td>
+                        <td>Date de Limit:</td><td><input type="Date" name="DateLimi" required></td>
+                        <td><input type="submit" value="Ajouter"></td>
+                    </tr>
+                </table>
+            </form>
+        ';
+    }
+
+    public function listeressource($liste) {
+        if (empty($liste)) {
+            echo "<p>Aucune Ressource </p>";
+            return;
+        }
+        echo '<h3> Liste Ressource </h3>';
+        echo "<table>";
+        foreach ($liste as $elem) {
+            echo '<td>'  . htmlspecialchars($elem['nom']) . '</td>' .
+                '<td><a href=index.php?module=mod_enseignant&action=consulterRessource&idressource=' . htmlspecialchars($elem['idRessource']) . '>' . htmlspecialchars($elem['type']) . '</a></td>';
+        }
+        echo "</table>";
+    }
+
+    public function listeDepot($liste) {
+        if (empty($liste)) {
+            echo "<p>Aucun Depot</p>";
+            return;
+        }
+        echo '<h3> Liste Depot </h3>';
+        echo "<table>";
+        foreach ($liste as $elem) {
+            echo 
+            '<td>'  . htmlspecialchars($elem['nom']) . '</td>' .
+            '<td>'  . htmlspecialchars($elem['DateCreation']) . '</td>' .
+            '<td>'  . htmlspecialchars($elem['DateLimit']) . '</td>';
+        }
         echo "</table>";
     }
     
