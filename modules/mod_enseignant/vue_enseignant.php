@@ -32,7 +32,7 @@ class vue_enseignant{
     
     public function listeSAEencours($liste) {
         if (empty($liste)) {
-            echo "<p>Aucun projet SAE en cours pour cet enseignant.</p>";
+            echo "<p>Aucun projet SAE en cours </p>";
             return;
         }
     
