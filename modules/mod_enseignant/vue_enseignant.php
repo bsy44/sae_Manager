@@ -19,6 +19,8 @@ class vue_enseignant{
                 <table>
                     <tr>
                         <td>Intitule :</td><td><input type="text" name="intitule" required></td>
+                        <td>Date de début:</td><td><input type="Date" name="DateDebut" required></td>
+                        <td>Date de fin:</td><td><input type="Date" name="DateFin" required></td>
                         <td>Description :</td><td><input type="text" name="description" required></td>
                         <td>Lien :</td><td><input type="text" name="lien" required></td>
                         <td>annee :</td><td><input type="text" name="annee" required></td>
@@ -30,12 +32,12 @@ class vue_enseignant{
         ';
     }
     
-    public function listeSAEencours($liste) {
+    public function affichelisteSAE($titre, $liste) {
         if (empty($liste)) {
-            echo "<p>Aucun projet SAE en cours </p>";
+            echo '<p>Aucun projet SAE ' . $titre . '</p>';
             return;
         }
-        echo '<h3> Liste SAE </h3>';
+        echo '<h3>' . $titre . '</h3>'; 
         echo "<table>";
         foreach ($liste as $projet) {
             echo '<td><a href=index.php?module=mod_enseignant&action=consultsae&idprojet=' . htmlspecialchars($projet['idProjet']) . '>' . htmlspecialchars($projet['intitule']) . '</a></td>';
@@ -61,7 +63,7 @@ class vue_enseignant{
                 <table>
                     <tr>
                         <td>Nom :</td><td><input type="text" name="nomRessource" required></td>
-                        <td>Type :</td><td><input type="text" name="typeRessource" required></td>
+                        <td>lien :</td><td><input type="text" name="lienRessource" required></td>
                         <td><input type="submit" value="Ajouter"></td>
                     </tr>
                 </table>
@@ -76,7 +78,7 @@ class vue_enseignant{
                 <table>
                     <tr>
                         <td>Nom :</td><td><input type="text" name="nomDepot" required></td>
-                        <td>Date de création:</td><td><input type="Date" name="DateCrea" required></td>
+                        <td>Date de publication:</td><td><input type="Date" name="DatePubli" required></td>
                         <td>Date de Limit:</td><td><input type="Date" name="DateLimi" required></td>
                         <td><input type="submit" value="Ajouter"></td>
                     </tr>
@@ -91,10 +93,14 @@ class vue_enseignant{
             return;
         }
         echo '<h3> Liste Ressource </h3>';
-        echo "<table>";
+        echo "<table> 
+        <tr>
+        <th >Nom</th>
+        <th >Lien</th>
+        </tr>";
         foreach ($liste as $elem) {
             echo '<td>'  . htmlspecialchars($elem['nom']) . '</td>' .
-                '<td><a href=index.php?module=mod_enseignant&action=consulterRessource&idressource=' . htmlspecialchars($elem['idRessource']) . '>' . htmlspecialchars($elem['type']) . '</a></td>';
+                '<td><a href=index.php?module=mod_enseignant&action=consulterRessource&idressource=' . htmlspecialchars($elem['idRessource']) . '>' . htmlspecialchars($elem['lien']) . '</a></td>';
         }
         echo "</table>";
     }
@@ -105,12 +111,18 @@ class vue_enseignant{
             return;
         }
         echo '<h3> Liste Depot </h3>';
-        echo "<table>";
+        echo "<table> 
+        <tr>
+        <th >Nom</th>
+        <th >Date de Publication</th>
+        <th >Date Limite</th>
+        </tr>";
+        
         foreach ($liste as $elem) {
             echo 
-            '<td>'  . htmlspecialchars($elem['nom']) . '</td>' .
-            '<td>'  . htmlspecialchars($elem['DateCreation']) . '</td>' .
-            '<td>'  . htmlspecialchars($elem['DateLimit']) . '</td>';
+            '<tr><td>'  . htmlspecialchars($elem['Nom']) . '</td>' .
+            '<td>'  . htmlspecialchars($elem['DatePublication']) . '</td>' .
+            '<td>'  . htmlspecialchars($elem['DateLimit']) . '</td></tr>';
         }
         echo "</table>";
     }
