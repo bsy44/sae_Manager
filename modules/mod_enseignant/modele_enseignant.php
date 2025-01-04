@@ -62,7 +62,7 @@ class modele_enseignant extends connexion{
         }
         else{
             return false;
-        };
+        }
     }
 
     public function getRessource($idProjet){
