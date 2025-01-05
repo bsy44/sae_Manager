@@ -55,6 +55,9 @@ class Cont_enseignant{
                 //TODO: 
                 $this->ajoutDepot();
                 break;
+            case "validationGroupe":
+                $this->modele_enseignant->validationGroupe();
+                break;
         }
     }
 

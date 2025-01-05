@@ -14,7 +14,7 @@ class Cont_etudiant{
     }
 
     public function afficher(){
-        $this->vue_etudiant->vueGroupe($this->modele_etudiant->getPrenomEtudiant());
+        $this->vue_etudiant->formGroupe($this->modele_etudiant->getPrenomEtudiant());
         $this->vue_etudiant->formualire();
     }
     public function exec(){

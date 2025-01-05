@@ -9,19 +9,27 @@ class vue_etudiant {
         ';
     }
 
-    public function vueGroupe($prenom) {
-        $options = '';
+    public function formGroupe($prenom) {
+        $optionsPrenom = '';
         foreach ($prenom as $nom) {
-            $options .= '<option value="' . htmlspecialchars($nom) . '">' . htmlspecialchars($nom) . '</option>';
+            $optionsPrenom .= '<option value="' . htmlspecialchars($nom) . '">' . htmlspecialchars($nom) . '</option>';
         }
 
         echo '<button id="btnGroupe">Proposer un groupe</button>
         <div id="popUpGrp" style="display:none; border:1px solid black;">
-            <form action="" method="post" id="formGroupe">
+            <form action="index.php?module=mod_enseignant&action=validationGroupe" METHOD="post" id="formGroupe">
+                <label for="sae">Saé :</label>
+                <select name="saé">
+                    <option value="SAE 3.2 POO">SAE 3.2 POO</option>
+                    <option value="SAE 3.2 WEB">SAE 3.2 WEB</option>
+                    <option value="S4.A.01">S4.A.01</option>
+                    <option value="S4.C.01">S4.A.01 BD</option>
+                </select><br>
+                    
                 <div class="form-option">
                     <label for="nom1">Étudiant 1 :</label>
                     <select name="nom">
-                        ' . $options . '
+                        ' . $optionsPrenom . '
                     </select><br>
                 </div>
                 
@@ -44,7 +52,7 @@ class vue_etudiant {
         
             let form = document.getElementById("formGroupe")
             let bouttonEleve = document.getElementById("ajouterEleve")
-            let optionsHTML = `' . addslashes($options) . '`
+            let optionsHTML = `' . addslashes($optionsPrenom) . '`
             let nbEleve = 1
         
             bouttonEleve.addEventListener("click", () => {
@@ -73,9 +81,9 @@ class vue_etudiant {
             })
         
             function updateLabels() {
-                let options = form.querySelectorAll(".form-option")
+                let optionsPrenom = form.querySelectorAll(".form-option")
                 let index = 1
-                options.forEach(option => {
+                optionsPrenom.forEach(option => {
                     let label = option.querySelector("label")
                     let select = option.querySelector("select")
                     let newId = `nom${index}`
