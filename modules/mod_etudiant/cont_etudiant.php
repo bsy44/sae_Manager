@@ -42,11 +42,8 @@ class Cont_etudiant {
             $idDepot = $_GET['idDepot'] ?? null;
             $this->vue_etudiant->afficherFormulaireDepot($idDepot);
         }
-    
     }
-
-    
-        public function afficher(){
+    public function afficher(){
         $this->vue_etudiant->menu();
         $this->vue_etudiant->affichelisteSAE("En cours", $this->modele_etudiant->getlisteSAE($_SESSION['login']));
         $this->vue_etudiant->affichelisteSAE("En attente de propositon de groupe", $this->modele_etudiant->getListeSaeSansGroupe($_SESSION['login']));
@@ -69,7 +66,6 @@ class Cont_etudiant {
             case "consulterdepot":
                 $this->deposerFichier();
                 break;  
-            
         }
     }
 
