@@ -1,0 +1,56 @@
+<?php
+include_once '../connexion.php';
+
+class DepotEtudiant {
+
+    private $controller;
+
+    public function __construct() {
+        $this->controller = new cont_etudiant_depot();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $this->controller->deposerFichier($_POST['depot_id'], 1, $_FILES['fichier']); // 1 = ID de l'étudiant
+        } else {
+            $this->controller->afficherDepotsActifs();
+        }
+    }
+
+    public function deposerFichier($depotId, $etudiantId, $fichier) {
+        $nomFichier = basename($fichier['name']);
+        $chemin = "../uploads/" . $nomFichier;
+
+        if (move_uploaded_file($fichier['tmp_name'], $chemin)) {
+            $query = "INSERT INTO depot_etudiants (depot_id, etudiant_id, fichier, date_depot) 
+                      VALUES (:depot_id, :etudiant_id, :fichier, NOW())";
+            $stmt = connexion::$bdd->prepare($query);
+            $stmt->execute([
+                'depot_id' => $depotId,
+                'etudiant_id' => $etudiantId,
+                'fichier' => $chemin
+            ]);
+            return $stmt->rowCount() > 0;
+        }
+        return false;
+    }
+
+
+    public function afficherDepotsActifs() {
+        $query = "SELECT * FROM depots WHERE date_limite >= CURDATE()";
+        $stmt = connexion::$bdd->query($query);
+        $depots = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        echo "<h1>Espaces de dépôt actifs</h1>";
+        foreach ($depots as $depot) {
+            echo "<p>
+                    <strong>{$depot['nom']}</strong> - {$depot['description']}<br>
+                    Date limite : {$depot['date_limite']} à {$depot['heure_limite']}<br>
+                    <form method='POST' enctype='multipart/form-data'>
+                        <input type='hidden' name='depot_id' value='{$depot['id_depot']}'>
+                        <label>Fichier : </label>
+                        <input type='file' name='fichier' required><br>
+                        <button type='submit'>Déposer</button>
+                    </form>
+                  </p>";
+        }
+    }
+}
+?>

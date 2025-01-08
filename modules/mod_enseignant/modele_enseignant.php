@@ -1,92 +1,53 @@
+
 <?php
-class modele_enseignant extends connexion{ 
-    
-    public function idEns($login){
-        $requete  = self::$bdd->prepare('select idEns from enseignant where login = ?');
-        $requete->execute([$login]);
-        $res = $requete->fetch();
-        return $res['idEns'];
-    }
-    public function ajouterSAE($intitule, $dateDebut,$dateFin, $description, $lien, $annee, $semestre, $idEns){
-        $requete  = self::$bdd->prepare('insert into projet (intitule, DateDebut, DateFin, description, lien, annee,semestre,idEns) values ( ?, ?, ?, ?, ?, ?, ?, ?)');
-        return $requete->execute([$intitule, $dateDebut, $dateFin, $description, $lien, $annee, $semestre, $idEns]);
+class modele_enseignant extends connexion {
+
+
+    public function getProjetsEnseignant($enseignantId) {
+        $query = "SELECT * FROM projets WHERE createur_id = :enseignant_id";
+        $stmt = self::$bdd->prepare($query);
+        $stmt->execute(['enseignant_id' => $enseignantId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    
-    public function getlisteSAEencours($login){
-        $requete  = self::$bdd->prepare('SELECT DISTINCT p.* FROM projet p
-                                        LEFT JOIN estCoResponsable cr ON p.idProjet = cr.idProjet
-                                        LEFT JOIN estIntervenant i ON p.idProjet = i.idProjet
-                                        JOIN enseignant e ON e.idEns = p.idEns 
-                                            OR e.idEns = cr.idEns 
-                                            OR e.idEns = i.idEns
-                                        WHERE e.login = ? and p.DateDebut<=? and ?<p.DateFin');
-                                        
-        $requete->execute([$login, date("Ymd"),  date("Ymd")]);
-        return $requete->fetchAll();
-    }
-    public function getlisteSAEtermine($login){
-        $requete  = self::$bdd->prepare('SELECT DISTINCT p.* FROM projet p
-                                        LEFT JOIN estCoResponsable cr ON p.idProjet = cr.idProjet
-                                        LEFT JOIN estIntervenant i ON p.idProjet = i.idProjet
-                                        JOIN enseignant e ON e.idEns = p.idEns 
-                                            OR e.idEns = cr.idEns 
-                                            OR e.idEns = i.idEns
-                                        WHERE e.login = ? and p.DateFin<?');
-                                        
-        $requete->execute([$login, date("Ymd")]);
-        return $requete->fetchAll();
-    }
-    public function getlisteSAEavenir($login){
-        $requete  = self::$bdd->prepare('SELECT DISTINCT p.* FROM projet p
-                                        LEFT JOIN estCoResponsable cr ON p.idProjet = cr.idProjet
-                                        LEFT JOIN estIntervenant i ON p.idProjet = i.idProjet
-                                        JOIN enseignant e ON e.idEns = p.idEns 
-                                            OR e.idEns = cr.idEns 
-                                            OR e.idEns = i.idEns
-                                        WHERE e.login = ? and p.DateDebut>? ');
-                                        
-        $requete->execute([$login, date("Ymd")]);
-        return $requete->fetchAll();
+
+    public function getGroupeProposer($enseignantId) {
+        $query = "SELECT * FROM groupes WHERE statut = 'proposé' AND enseignant_id = :enseignant_id";
+        $stmt = self::$bdd->prepare($query);
+        $stmt->execute(['enseignant_id' => $enseignantId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function peutModifier($idEns, $idProjet){
-        $requete  = self::$bdd->prepare('select idEns from projet where idprojet = ?');        
-        $requete->execute([$idProjet]);
-        $res = $requete->fetch();
-        $requete2  = self::$bdd->prepare('select idEns from estCoResponsable where idprojet = ?');        
-        $requete2->execute([$idProjet]);
-        $res2 = $requete2->fetch();
-        if ($res && $idEns == $res['idEns']  || $res2 && $idEns == $res2['idEns'] ){
-            return true;
-        }
-        else{
-            return false;
-        };
+
+    public function validerGroupe($groupeId) {
+        $query = "UPDATE groupes SET statut = 'validé' WHERE id_groupe = :groupe_id";
+        $stmt = self::$bdd->prepare($query);
+        $stmt->execute(['groupe_id' => $groupeId]);
+        return $stmt->rowCount() > 0;
     }
 
-    public function getRessource($idProjet){
-        $requete  = self::$bdd->prepare('select * from ressource where idprojet = ?');        
-        $requete->execute([$idProjet]);
-        return $requete->fetchAll();
+
+    public function ajouterEnseignantAuProjet($projetId, $enseignantId) {
+        $query = "INSERT INTO enseignants_projets (projet_id, enseignant_id) VALUES (:projet_id, :enseignant_id)";
+        $stmt = self::$bdd->prepare($query);
+        $stmt->execute(['projet_id' => $projetId, 'enseignant_id' => $enseignantId]);
+        return $stmt->rowCount() > 0;
     }
 
-    public function getDepot($idProjet){
-        $requete  = self::$bdd->prepare('select * from depot where idprojet = ?');        
-        $requete->execute([$idProjet]);
-        return $requete->fetchAll();
+    public function getEtudiantsSansGroupe($projetId) {
+        $query = "SELECT e.id, e.nom, e.prenom 
+                  FROM etudiants e
+                  WHERE e.id NOT IN (
+                      SELECT etudiant_id 
+                      FROM etudiants_groupes eg
+                      JOIN groupes g ON eg.groupe_id = g.id_groupe
+                      WHERE g.projet_id = :projet_id
+                  )";
+        $stmt = self::$bdd->prepare($query);
+        $stmt->execute(['projet_id' => $projetId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function ajoutdepot($idProjet, $nomDepot, $datepublication, $datelimite){
-        $requete  = self::$bdd->prepare('insert into depot (idProjet, Nom, DatePublication, DateLimit) values ( ?, ?, ?, ?)');
-        return $requete->execute([$idProjet, $nomDepot, $datepublication, $datelimite]);
-    }
 
-    public function ajoutRessource($idProjet, $nomRessource, $lienRessource){
-        $requete  = self::$bdd->prepare('insert into ressource (idProjet, nom, lien) values ( ?, ?, ?)');
-        return $requete->execute([$idProjet, $nomRessource, $lienRessource]);
-    }
-    
 }
-
 ?>
