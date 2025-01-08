@@ -59,7 +59,7 @@ class Cont_connexion {
 
         if ( $this->modele->verifuser($login, $password)) { 
             $_SESSION['login'] = $login;
-            //saveLogin($login);
+
             $this->redirectionRole($this->modele->getRole($login));
             exit;
         } else {
