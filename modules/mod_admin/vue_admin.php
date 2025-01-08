@@ -33,9 +33,6 @@ class vue_admin{
             </form>
             
         ';
-
     }
-    
 }
-
 ?>

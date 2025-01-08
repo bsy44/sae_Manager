@@ -8,6 +8,7 @@ class vue_etudiant {
         ';
 
     }
+
     public function afficherDepots($depots) {
         echo "<h1>Dépôts disponibles</h1>";
         echo "<ul>";
@@ -24,7 +25,6 @@ class vue_etudiant {
         }
         echo "</ul>";
     }
-
    
     public function afficherFormulaireDepot() {
         echo "<h1>Déposer un fichier</h1>";
@@ -32,8 +32,6 @@ class vue_etudiant {
         echo "<label>Fichier :</label><input type='file' name='fichier' required><br>";
         echo "<button type='submit'>Déposer</button>";
     }
-
-
 
     public function affichelisteSAE($titre, $liste) {
         if (empty($liste)) {
@@ -120,7 +118,6 @@ class vue_etudiant {
                 })
             }
         </script>
-
         ';
     }
     

@@ -34,6 +34,5 @@ class modele_etudiant extends connexion{
         $stmt = self::$bdd->prepare("INSERT INTO DepotEtudiants (iddepotetudiant, idEtud, fichier, date_depot) VALUES (?, ?, ?, ?)");
         return $stmt->execute([$iddepotetudiant, $idEtud, $fichier, $date_depot]);
     }
-
 }
 ?>

@@ -12,9 +12,7 @@ class Cont_connexion {
         $this->modele = new Modele_connexion();
         $this->vue = new Vue_connexion();
         $this->action = isset($_GET["action"]) ? $_GET["action"] : "bienvenue";
-       
     }
-
     public function exec() {
         switch ($this->action) {
             case 'bienvenue':
@@ -49,9 +47,6 @@ class Cont_connexion {
         exit;
     }
     
-    
-
-    
     public function verifConnexion() {
        
         $login = isset($_POST['login']) ? htmlspecialchars($_POST['login']) : null;
@@ -74,6 +69,5 @@ class Cont_connexion {
         header('Location: index.php?module=mod_connexion&action=bienvenue');
         exit;
     }
-    
 }
 ?>

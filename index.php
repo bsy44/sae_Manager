@@ -7,7 +7,6 @@
     $connexion = new Connexion();
     $connexion->initConnexion();
     
-
     $module = isset($_GET["module"]) ? $_GET["module"] : "mod_connexion";
     switch($module){
     case "mod_admin":

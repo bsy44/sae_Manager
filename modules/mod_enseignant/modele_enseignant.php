@@ -87,22 +87,6 @@ class modele_enseignant extends connexion{
         return $requete->execute([$idProjet, $nomRessource, $lienRessource]);
     }
 
-    public function validationGroupe() {
-
-        /*if (isset($_POST['sae']) && isset($_POST['prenom'])) {
-            $sae = htmlspecialchars($_POST['sae']); // Le SAE sélectionné
-            $etudiant1 = htmlspecialchars($_POST['prenom']); // Le nom de l'étudiant sélectionné
-
-            // Affiche les valeurs récupérées
-            echo "Saé sélectionné : " . $sae . "<br>";
-            echo "Étudiant 1 sélectionné : " . $etudiant1 . "<br>";
-
-
-            // Ajoutez d'autres traitements selon votre logique (insertion dans la base de données, etc.)
-        } else {
-            echo "Les données du formulaire ne sont pas envoyées correctement.";
-        }*/
-    }
 
 
 }

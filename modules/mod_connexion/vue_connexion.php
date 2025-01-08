@@ -1,6 +1,5 @@
 <?php
     class Vue_connexion{
-
         public function form_connexion(){
         echo '
             <form action="index.php?module=mod_connexion&action=connexion" METHOD="POST">
@@ -9,11 +8,9 @@
                 <input type="submit" value="Se connecter"/>
             </form>';
         }
-
         public function messageErreurConnexion(){
             echo "login ou mot de passe incorrecte";
         }
-
         public function deconnexion(){
             echo"Déconnecté avec succès !";
         }

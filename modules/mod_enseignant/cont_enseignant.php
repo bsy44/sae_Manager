@@ -15,9 +15,7 @@ class Cont_enseignant{
         if (isset($_GET['idprojet'])) {
             $_SESSION['idProjet'] = $_GET['idprojet'];
         }
-    
     }
-
     public function acceuil(){
         $this->vue_enseignant->acceuil();
         $this->vue_enseignant->affichelisteSAE("En cours", $this->modele_enseignant->getlisteSAEencours($_SESSION['login']));
