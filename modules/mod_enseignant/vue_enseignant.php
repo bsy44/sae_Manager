@@ -34,7 +34,7 @@ class vue_enseignant{
     
     public function affichelisteSAE($titre, $liste) {
         if (empty($liste)) {
-            echo '<p>Aucun projet SAE ' . $titre . '</p>';
+            echo '<p>Aucun SAE ' . $titre . '</p>';
             return;
         }
         echo '<h3>' . $titre . '</h3>'; 
