@@ -23,27 +23,34 @@ class Cont_etudiant{
         $this->vue_etudiant->affichelisteSAE("En attente de propositon de groupe", $this->modele_etudiant->getListeSaeSansGroupe($_SESSION['login']));
         
     }
+
     public function exec(){
         switch($this->action){
             case "Bienvenue":
                 $this->afficher();
                 break;
-                case 'formGroupe' : 
-                    $this->formGroupe();
-                    break;
+            case 'envoieProp' : 
+                $this->formGroupe();
+                break;
+            case "formGroupe" :
+                $this->vue_etudiant->formGroupe($this->modele_etudiant->getPrenomEtudiant());
+                break;
         }
     }
 
     public function formGroupe(){
-        $this->vue_etudiant->formGroupe($this->modele_etudiant->getPrenomEtudiant());
-        
-        for ($i = 1; $i < 4; $i++) {
+        for ($i = 1; $i <= 4; $i++) {
             if (isset($_POST["idEtu{$i}"])) {
                 $idEtudiant = isset($_POST["idEtu{$i}"]) ? $_POST["idEtu{$i}"] : exit; 
-                $this->modele_etudiant->insertionGrpTemporaire($idEtudiant, 1);
+                if($this->modele_etudiant->insertionGrpTemporaire($idEtudiant, $_SESSION['idProjet'])){
+                    $this->afficher();
+                }
+                else{
+                    $this->vue_etudiant->formGroupe($this->modele_etudiant->getPrenomEtudiant());
+                }
             }
         }
+        
     }
-    
 }
 ?>

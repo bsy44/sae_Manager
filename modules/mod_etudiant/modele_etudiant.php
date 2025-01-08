@@ -9,7 +9,7 @@ class modele_etudiant extends connexion{
 
     public function insertionGrpTemporaire($idEtudiant, $idProjet) {
         $req = self::$bdd->prepare('INSERT INTO groupeTemporaire (idEudiant, idProjet) values (?, ?)');
-        $req->execute([$idEtudiant, $idProjet]);
+        return $req->execute([$idEtudiant, $idProjet]);
     }
     public function getlisteSAE($login){
         $requete  = self::$bdd->prepare('select * from projet where idProjet = (SELECT idProjet from groupe where idEtu = (select idEtu from etudiant where login = ?))');
@@ -22,7 +22,5 @@ class modele_etudiant extends connexion{
         $requete->execute([$login, $login]);
         return $requete->fetchAll();
     }
-
 }
-
 ?>

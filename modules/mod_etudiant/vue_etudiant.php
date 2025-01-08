@@ -3,7 +3,6 @@ class vue_etudiant {
 
     public function menu() {
         echo '
-            <a href="index.php?module=mod_etudiant&action=formGroupe">Proposer groupe</a>
             <form action="index.php?module=mod_connexion&action=deconnexion" method="POST">
             <input type="submit" value="Se déconnecter">
         ';
@@ -18,7 +17,7 @@ class vue_etudiant {
         echo '<h3> Liste SAE ' . $titre .  '</h3>'; 
         echo "<table>";
         foreach ($liste as $projet) {
-            echo '<td><a href=index.php?module=mod_etudiant&action=consultsae&idprojet=' . htmlspecialchars($projet['idProjet']) . '>' . htmlspecialchars($projet['intitule']) . '</a></td>';
+            echo '<td><a href=index.php?module=mod_etudiant&action=formGroupe&idprojet=' . htmlspecialchars($projet['idProjet']) . '>' . htmlspecialchars($projet['intitule']) . '</a></td>';
         }
         echo "</table>";
     }
@@ -31,7 +30,7 @@ class vue_etudiant {
 
         echo '
         <div id="popUpGrp">
-            <form action="index.php?module=mod_etudiant&action=formGroupe" METHOD="post" id="formGroupe">
+            <form action="index.php?module=mod_etudiant&action=envoieProp" METHOD="post" id="formGroupe">
                 <div class="form-option">
                     <label for="nom">Étudiant 1 :</label>
                     <select name="idEtu1">
