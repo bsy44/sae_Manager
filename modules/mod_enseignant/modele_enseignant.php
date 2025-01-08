@@ -77,9 +77,9 @@ class modele_enseignant extends connexion{
         return $requete->fetchAll();
     }
 
-    public function ajoutdepot($idProjet, $nomDepot, $datepublication, $datelimite){
-        $requete  = self::$bdd->prepare('insert into depot (idProjet, Nom, DatePublication, DateLimit) values ( ?, ?, ?, ?)');
-        return $requete->execute([$idProjet, $nomDepot, $datepublication, $datelimite]);
+    public function ajoutdepot($idProjet, $nomDepot, $datepublication, $datelimite, $description){
+        $requete  = self::$bdd->prepare('insert into depot (idProjet, nom, datePublication, dateLimite, description) values ( ?, ?, ?, ?, ?)');
+        return $requete->execute([$idProjet, $nomDepot, $datepublication, $datelimite, $description]);
     }
 
     public function ajoutRessource($idProjet, $nomRessource, $lienRessource){

@@ -48,11 +48,9 @@ class Cont_enseignant{
                 $this->vue_enseignant->formulaireAjoutresource();
                 break;
             case "ajoutressource":
-                //TODO: 
                 $this->ajoutRessource();
                 break;
             case "ajoutdepot":
-                //TODO: 
                 $this->ajoutDepot();
                 break;
             case "validationGroupe":
@@ -100,11 +98,12 @@ class Cont_enseignant{
         $nomDepot = isset($_POST['nomDepot']) ? htmlspecialchars($_POST['nomDepot']) : exit;
         $datepublication = isset($_POST['DatePubli']) ? htmlspecialchars($_POST['DatePubli']) : null;
         $datelimite = isset($_POST['DateLimi']) ? htmlspecialchars($_POST['DateLimi']) : null;
+        $description = isset($_POST['descriptionDepot']) ? htmlspecialchars($_POST['descriptionDepot']) : null;
         if($datepublication>$datelimite){
             echo 'Date de fin ne peut pas être avant la date deébut';
             $this->vue_enseignant->formulaireAjoutdepot();
         }
-        else if ($this->modele_enseignant->ajoutDepot($_SESSION['idProjet'], $nomDepot, $datepublication, $datelimite)){
+        else if ($this->modele_enseignant->ajoutDepot($_SESSION['idProjet'], $nomDepot, $datepublication, $datelimite, $description)){
             $this->detailsSae();
         }
         else{
