@@ -89,7 +89,7 @@ class modele_enseignant extends connexion{
 
     public function validationGroupe() {
 
-        if (isset($_POST['sae']) && isset($_POST['prenom'])) {
+        /*if (isset($_POST['sae']) && isset($_POST['prenom'])) {
             $sae = htmlspecialchars($_POST['sae']); // Le SAE sélectionné
             $etudiant1 = htmlspecialchars($_POST['prenom']); // Le nom de l'étudiant sélectionné
 
@@ -101,7 +101,7 @@ class modele_enseignant extends connexion{
             // Ajoutez d'autres traitements selon votre logique (insertion dans la base de données, etc.)
         } else {
             echo "Les données du formulaire ne sont pas envoyées correctement.";
-        }
+        }*/
     }
 
 

@@ -1,34 +1,27 @@
 <?php
 class vue_etudiant {
 
-    public function formualire() {
+    public function menu() {
         echo '
+            <a href="index.php?module=mod_etudiant&action=formGroupe">Proposer groupe</a>
             <form action="index.php?module=mod_connexion&action=deconnexion" method="POST">
                 <input type="submit" value="Se déconnecter">
             </form>
         ';
     }
 
-    public function formGroupe($prenom) {
+    public function formGroupe($etudiant) {
         $optionsPrenom = '';
-        foreach ($prenom as $nom) {
-            $optionsPrenom .= '<option value="' . htmlspecialchars($nom) . '">' . htmlspecialchars($nom) . '</option>';
+        foreach ($etudiant as $etudiants) {
+            $optionsPrenom .= '<option value="' . htmlspecialchars($etudiants["idEtu"]) . '">' . htmlspecialchars($etudiants["prenom"]) . '</option>';
         }
 
-        echo '<button id="btnGroupe">Proposer un groupe</button>
-        <div id="popUpGrp" style="display:none; border:1px solid black;">
-            <form action="index.php?module=mod_enseignant&action=validationGroupe" METHOD="post" id="formGroupe">
-                <label for="sae">Saé :</label>
-                <select name="saé">
-                    <option value="SAE 3.2 POO">SAE 3.2 POO</option>
-                    <option value="SAE 3.2 WEB">SAE 3.2 WEB</option>
-                    <option value="S4.A.01">S4.A.01</option>
-                    <option value="S4.C.01">S4.A.01 BD</option>
-                </select><br>
-                    
+        echo '
+        <div id="popUpGrp">
+            <form action="index.php?module=mod_etudiant&action=formGroupe" METHOD="post" id="formGroupe">
                 <div class="form-option">
-                    <label for="nom1">Étudiant 1 :</label>
-                    <select name="nom">
+                    <label for="nom">Étudiant 1 :</label>
+                    <select name="idEtu1">
                         ' . $optionsPrenom . '
                     </select><br>
                 </div>
@@ -40,11 +33,6 @@ class vue_etudiant {
         </div> 
         
         <script>
-            let buttonGrp = document.getElementById("btnGroupe")
-            buttonGrp.addEventListener("click", () => {
-                document.getElementById("popUpGrp").style.display = "block"
-            })
-        
             let boutonClose = document.getElementById("close")
             boutonClose.addEventListener("click", () => {
                 document.getElementById("popUpGrp").style.display = "none"
@@ -63,7 +51,7 @@ class vue_etudiant {
                     option.className = "form-option"
                     option.innerHTML = `
                         <label for="${uniqueId}">Étudiant ${nbEleve} :</label>
-                        <select name="nom" id="${uniqueId}">
+                        <select name="idEtu${nbEleve}">
                             ${optionsHTML}
                         </select>
                     `
@@ -97,5 +85,7 @@ class vue_etudiant {
 
         ';
     }
+
+    
 }
 ?>
