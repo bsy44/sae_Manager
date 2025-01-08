@@ -76,12 +76,15 @@ class vue_enseignant{
              <form action="index.php?module=mod_enseignant&action=ajoutdepot" method="POST">
                 <h3>Ajout Depot</h3>
                 <table>
+
                     <tr>
                         <td>Nom :</td><td><input type="text" name="nomDepot" required></td>
                         <td>Date de publication:</td><td><input type="Date" name="DatePubli" required></td>
                         <td>Date de Limit:</td><td><input type="Date" name="DateLimi" required></td>
-                        <td><input type="submit" value="Ajouter"></td>
+                        <td>Description :</td><td><input type="text" name="descriptionDepot" ></td>
+                       
                     </tr>
+                    <td><input type="submit" value="Ajouter"></td>
                 </table>
             </form>
         ';
@@ -120,9 +123,11 @@ class vue_enseignant{
         
         foreach ($liste as $elem) {
             echo 
-            '<tr><td>'  . htmlspecialchars($elem['Nom']) . '</td>' .
-            '<td>'  . htmlspecialchars($elem['DatePublication']) . '</td>' .
-            '<td>'  . htmlspecialchars($elem['DateLimit']) . '</td></tr>';
+            '<tr>
+            <td>'  . htmlspecialchars($elem['nom']) . '</td>' .
+            '<td>'  . htmlspecialchars($elem['datePublication']) . '</td>' .
+            '<td>'  . htmlspecialchars($elem['dateLimite']) . '</td>' .
+            '<td>'  . htmlspecialchars($elem['description']) . '</td></tr>';
         }
         echo "</table>";
     }
