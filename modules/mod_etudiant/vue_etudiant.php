@@ -11,23 +11,27 @@ class vue_etudiant{
         echo "<h1>Dépôts disponibles</h1>";
         echo "<ul>";
         foreach ($depots as $depot) {
-            echo "<li>Dépôt ID: {$depot['idDepot']} - {$depot['description']} (Deadline: {$depot['date_limite']})</li>";
+    
+            echo "
+            <li>
+            <a href=index.php?module=mod_etudiant&action=consulterdepot&iddepot={$depot['idDepot']} >
+            Nom : {$depot['nom']}
+            Date Limite : {$depot['dateLimite']}
+            Description :{$depot['description']} 
+            </a>
+            </li>";
         }
         echo "</ul>";
     }
 
    
-    public function afficherFormulaireDepot($idDepot) {
+    public function afficherFormulaireDepot() {
         echo "<h1>Déposer un fichier</h1>";
         echo "<form method='POST' enctype='multipart/form-data'>";
-        echo "<label>ID Étudiant :</label><input type='number' name='idEtud' required><br>";
-        echo "<input type='hidden' name='idDepot' value='$idDepot'>";
         echo "<label>Fichier :</label><input type='file' name='fichier' required><br>";
         echo "<button type='submit'>Déposer</button>";
-        echo "</form>";
     }
-}
-?>
+
 
 
     public function affichelisteSAE($titre, $liste) {
@@ -46,4 +50,4 @@ class vue_etudiant{
     
     
 }
-
+?>
