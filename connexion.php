@@ -1,7 +1,6 @@
 <?php
 
 Class connexion{
-    
     protected static $bdd;
 
     public static function initconnexion(){

@@ -1,7 +1,7 @@
 <?php
 class modele_etudiant extends connexion{ 
 
-    public function getListeetudiant(){
+    public function getListeEtudiant(){
         $requete  = self::$bdd->prepare('select * from etudiant');
         $requete->execute();
         $res = $requete->fetchAll();
@@ -15,7 +15,7 @@ class modele_etudiant extends connexion{
     }
 
     public function insertionGrpTemporaire($idEtudiant, $idProjet) {
-        $req = self::$bdd->prepare('INSERT INTO groupeTemporaire (idEudiant, idProjet) values (?, ?)');
+        $req = self::$bdd->prepare('INSERT INTO groupeTemporaire (idEtudiant, idProjet) values (?, ?)');
         return $req->execute([$idEtudiant, $idProjet]);
     }
     public function getlisteSAE($login){

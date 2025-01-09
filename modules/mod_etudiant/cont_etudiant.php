@@ -2,7 +2,6 @@
 include_once 'modele_etudiant.php';
 include_once 'vue_etudiant.php';
 
-
 class Cont_etudiant {
     private $vue_etudiant;
     private $modele_etudiant;
@@ -18,7 +17,6 @@ class Cont_etudiant {
         }
         $this->action =  isset($_GET['action'])?  $_GET['action'] : "Bienvenue";
     }
-
 
     public function afficherDepots() {
         $depots = $this->modele_etudiant->getDepotsDisponibles($_SESSION['idProjet']);
@@ -59,7 +57,7 @@ class Cont_etudiant {
                 $this->formGroupe();
                 break;
             case "formGroupe" :
-                $this->vue_etudiant->formGroupe($this->modele_etudiant->getPrenomEtudiant());
+                $this->vue_etudiant->formGroupe($this->modele_etudiant->getListeEtudiant());
             case "consultsae":
                 $this->afficherDepots();
                 break;
