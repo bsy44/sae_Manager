@@ -43,8 +43,8 @@ class Cont_etudiant {
     }
     public function afficher(){
         $this->vue_etudiant->menu();
-        $this->vue_etudiant->affichelisteSAE("En cours", $this->modele_etudiant->getlisteSAE($_SESSION['login']));
-        $this->vue_etudiant->affichelisteSAE("En attente de propositon de groupe", $this->modele_etudiant->getListeSaeSansGroupe($_SESSION['login']));
+        $this->vue_etudiant->affichelisteSAE("En cours", $this->modele_etudiant->getlisteSAE($_SESSION['login']), "consultsae");
+        $this->vue_etudiant->affichelisteSAE("En attente de propositon de groupe", $this->modele_etudiant->getListeSaeSansGroupe($_SESSION['login']), "formpropgrp");
         
     }
 
@@ -56,7 +56,7 @@ class Cont_etudiant {
             case 'envoieProp' : 
                 $this->formGroupe();
                 break;
-            case "formGroupe" :
+            case "formpropgrp" :
                 $this->vue_etudiant->formGroupe($this->modele_etudiant->getListeEtudiant());
             case "consultsae":
                 $this->afficherDepots();

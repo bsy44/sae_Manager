@@ -33,7 +33,7 @@ class vue_etudiant {
         echo "<button type='submit'>Déposer</button>";
     }
 
-    public function affichelisteSAE($titre, $liste) {
+    public function affichelisteSAE($titre, $liste, $action) {
         if (empty($liste)) {
             echo '<p>Aucun  SAE ' . $titre . '</p>';
             return;
@@ -41,7 +41,7 @@ class vue_etudiant {
         echo '<h3> Liste SAE ' . $titre .  '</h3>'; 
         echo "<table>";
         foreach ($liste as $projet) {
-            echo '<td><a href=index.php?module=mod_etudiant&action=formGroupe&idprojet=' . htmlspecialchars($projet['idProjet']) . '>' . htmlspecialchars($projet['intitule']) . '</a></td>';
+            echo '<td><a href=index.php?module=mod_etudiant&action=' . $action .'&idprojet=' . htmlspecialchars($projet['idProjet']) . '>' . htmlspecialchars($projet['intitule']) . '</a></td>';
         }
         echo "</table>";
     }
