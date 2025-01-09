@@ -55,6 +55,9 @@ class Cont_enseignant{
             case "ajoutdepot":
                 $this->ajoutDepot();
                 break;
+            case "ajoutIntervenant":
+                $this->ajoutIntervenant();
+                break;
             case "validationGroupe":
                 $this->modele_enseignant->validationGroupe();
                 break;
@@ -122,6 +125,16 @@ class Cont_enseignant{
         }
         else{
             $this->vue_enseignant->formulaireAjoutresource();
+        }
+    }
+
+    public function ajoutIntervenant(){
+        $idens = isset($_POST['idens']) ? htmlspecialchars($_POST['idens']) : exit;
+        if($this->modele_enseignant->ajoutIntervenant($idens, $_SESSION['idProjet'])){
+            $this->detailsSae();
+        }
+        else{
+            //message d'erreur
         }
     }
     

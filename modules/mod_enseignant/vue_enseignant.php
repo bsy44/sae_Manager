@@ -95,6 +95,10 @@ class vue_enseignant{
 
     public function affichelisteIntervenant($liste){
         echo '<h3> Liste Intervenant </h3>';
+        if(empty($liste)){
+            echo "Aucun Intervenant";
+        }
+        else{
         echo "<table> 
         <tr>
         <th >Nom</th>
@@ -109,6 +113,7 @@ class vue_enseignant{
             </tr>';
         }
         echo "</table>";
+    }   
     }
 
     public function formulaireAjoutIntervenant($liste){
@@ -120,7 +125,7 @@ class vue_enseignant{
             <h3> Ajouter un Intervenant </h3>
              <form action="index.php?module=mod_enseignant&action=ajoutIntervenant" METHOD="post">
                 <label for="nom"> Chosisiez un nom :</label>
-                    <select name="idEtu1">
+                    <select name="idens">
                         ' . $optionsPrenom . '
                     </select>
                 <input type="submit" value="Ajouter" >
