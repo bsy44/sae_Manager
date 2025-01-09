@@ -3,7 +3,7 @@
 
         public function form_connexion(){
             echo '
-            <div class="container d-flex justify-content-center align-items-center vh-100">
+            <div class="container d-flex justify-content-center align-items-center">
                 <form action="index.php?module=mod_connexion&action=connexion" METHOD="POST" class="form-signin w-100">
                     <h1 class="text-center my-4">Connexion</h1>
                     <div class="form-floating">
@@ -20,7 +20,6 @@
             </div>
             ';
         }
-
 
         public function messageErreurConnexion(){
             echo "login ou mot de passe incorrecte";

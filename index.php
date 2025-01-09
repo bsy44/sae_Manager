@@ -18,13 +18,33 @@ require_once 'modules/mod_admin/mod_admin.php';
     </head>
 
     <body>
-        <header class="navbar navbar-expand-lg">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">SAE Manager</a>
-            </div>
+        <header>
+            <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">SAE Manager</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Features</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Pricing</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </nav>
         </header>
 
-        <main>
+        <main class="w-100">
             <?php
             $connexion = new Connexion();
             $connexion->initConnexion();
@@ -47,9 +67,9 @@ require_once 'modules/mod_admin/mod_admin.php';
             ?>
         </main>
 
-        <footer class="py-3  bottom-0 w-100">
-            <div class="text-body-secondary text-center ">
-                <p class="text-white">&copy;2025 | SAE Manager groupe 14</p>
+        <footer>
+            <div class="align-items-center text-body-secondary text-center p-3">
+                <p class="text-white">&copy;2025 | SAE Manager groupe 24</p>
             </div>
         </footer>
 
