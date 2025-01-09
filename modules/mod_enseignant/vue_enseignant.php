@@ -100,17 +100,13 @@ class vue_enseignant{
         }
         else{
         echo "<table> 
-        <tr>
-        <th >Nom</th>
-        <th >prenom</th>
-        </tr>";
+        <tr><th >Nom</th>
+        <th >prenom</th></tr>";
         
         foreach ($liste as $elem) {
             echo 
-            '<tr>
-            <td>' . htmlspecialchars($elem['nom']) . '</td>' .
-            '<td>'. htmlspecialchars($elem['prenom']) . '</td>
-            </tr>';
+            '<tr><td>' . htmlspecialchars($elem['nom']) . '</td>' .
+            '<td>'. htmlspecialchars($elem['prenom']) . '</td></tr>';
         }
         echo "</table>";
     }   
@@ -134,8 +130,10 @@ class vue_enseignant{
     }   
 
     public function listeressource($liste) {
+
+        
         if (empty($liste)) {
-            echo "<p>Aucune Ressource </p>";
+            echo "<p>Aucune Ressource</p>";
             return;
         }
         echo '<h3> Liste Ressource </h3>';
@@ -144,9 +142,11 @@ class vue_enseignant{
         <th >Nom</th>
         <th >Lien</th>
         </tr>";
+        
         foreach ($liste as $elem) {
-            echo '<td>'  . htmlspecialchars($elem['nom']) . '</td>' .
-                '<td><a href=index.php?module=mod_enseignant&action=consulterRessource&idressource=' . htmlspecialchars($elem['idRessource']) . '>' . htmlspecialchars($elem['lien']) . '</a></td>';
+            echo 
+            '<tr><td>'  . htmlspecialchars($elem['nom']) . '</td>' .
+            '<td>'  . htmlspecialchars($elem['lien']) . '</td></tr>';
         }
         echo "</table>";
     }
@@ -166,8 +166,8 @@ class vue_enseignant{
         
         foreach ($liste as $elem) {
             echo 
-            '<tr>
-            <td>'  . htmlspecialchars($elem['nom']) . '</td>' .
+            
+            '<tr><td>'  . htmlspecialchars($elem['nom']) . '</td>' .
             '<td>'  . htmlspecialchars($elem['datePublication']) . '</td>' .
             '<td>'  . htmlspecialchars($elem['dateLimite']) . '</td>' .
             '<td>'  . htmlspecialchars($elem['description']) . '</td></tr>';
