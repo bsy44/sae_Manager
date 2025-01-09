@@ -129,12 +129,13 @@ class Cont_enseignant{
     }
 
     public function ajoutIntervenant(){
-        $idens = isset($_POST['idens']) ? htmlspecialchars($_POST['idens']) : exit;
-        if($this->modele_enseignant->ajoutIntervenant($idens, $_SESSION['idProjet'])){
+        $idens = isset($_POST['idens']) ? htmlspecialchars($_POST['idens']) : null;
+        if(!empty($idens) && $this->modele_enseignant->ajoutIntervenant($idens, $_SESSION['idProjet'])){
             $this->detailsSae();
         }
         else{
-            //message d'erreur
+            $this->vue_enseignant->affichelisteIntervenant($this->modele_enseignant->getlisteintervenant($_SESSION['idProjet']));
+            $this->vue_enseignant->formulaireAjoutIntervenant($this->modele_enseignant->getlistenseignantNonIntervenant($_SESSION['idProjet']));
         }
     }
     
