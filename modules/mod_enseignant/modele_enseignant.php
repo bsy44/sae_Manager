@@ -99,7 +99,11 @@ class modele_enseignant extends connexion{
         return $requete->fetchAll();
     }
 
-
+    public function ajoutIntervenant($idEns, $idProjet){
+        $requete  = self::$bdd->prepare('insert into estIntervenant (idEns, idProjet) values ( ?, ?)');
+        return $requete->execute([$idEns, $idProjet]);
+    }
+    
 
 }
 
