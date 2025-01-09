@@ -13,7 +13,6 @@ class Cont_admin{
         $this->action =  isset($_GET['action'])?  $_GET['action'] : "ajouter";
     }
 
-
     public function afficher(){
         $this->vue_admin->formualire();
     }
@@ -23,9 +22,7 @@ class Cont_admin{
         $nom = isset($_POST['nom']) ? htmlspecialchars($_POST['nom']) : null;
         $login = isset($_POST['login']) ? htmlspecialchars($_POST['login']) : null;
         $password = isset($_POST['password']) ? htmlspecialchars($_POST['password']) : null;
-
         $this->modele_admin->ajouterEns($prenom, $nom, $login, $password); 
-        
     }
 
     public function ajoutEtu() {
@@ -38,9 +35,7 @@ class Cont_admin{
     }
 
     public function exec(){
-         
-        $this->afficher(); 
-
+        $this->afficher();
         switch($this->action){
             case 'ajoutEtu':
                 $this->ajoutEtu();
@@ -52,6 +47,5 @@ class Cont_admin{
         }
     }
 
- 
 }
 ?>

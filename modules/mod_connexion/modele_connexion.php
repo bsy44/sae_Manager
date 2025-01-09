@@ -14,10 +14,8 @@
         
                 return password_verify($mdp, $result['password']);
             }
-        
             return false;
         }
-        
 
         public function getRole($login){
             $sql = 'select role from user where login = ?';
@@ -28,6 +26,5 @@
                 return $result['role'];
             }
         }
-
     }
 ?>
