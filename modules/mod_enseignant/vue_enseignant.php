@@ -53,6 +53,9 @@ class vue_enseignant{
         <form action="index.php?module=mod_enseignant&action=btnajoutdepot" method="POST">
             <input type="submit" value="Ajouter Depot">
         </form>
+        <form action="index.php?module=mod_enseignant&action=btnajoutintervenant" method="POST">
+            <input type="submit" value="Ajouter Intervenant">
+        </form>
         ';
     }
 
@@ -89,6 +92,41 @@ class vue_enseignant{
             </form>
         ';
     }
+
+    public function affichelisteIntervenant($liste){
+        echo '<h3> Liste Intervenant </h3>';
+        echo "<table> 
+        <tr>
+        <th >Nom</th>
+        <th >prenom</th>
+        </tr>";
+        
+        foreach ($liste as $elem) {
+            echo 
+            '<tr>
+            <td>' . htmlspecialchars($elem['nom']) . '</td>' .
+            '<td>'. htmlspecialchars($elem['prenom']) . '</td>
+            </tr>';
+        }
+        echo "</table>";
+    }
+
+    public function formulaireAjoutIntervenant($liste){
+        $optionsPrenom = '';
+        foreach ($liste as $enseignant) {
+            $optionsPrenom .= '<option value="' . htmlspecialchars($enseignant["idEns"]) . '">' . htmlspecialchars($enseignant["prenom"]) . '</option>';
+        }
+        echo '
+            <h3> Ajouter un Intervenant </h3>
+             <form action="index.php?module=mod_enseignant&action=ajoutIntervenant" METHOD="post">
+                <label for="nom"> Chosisiez un nom :</label>
+                    <select name="idEtu1">
+                        ' . $optionsPrenom . '
+                    </select>
+                <input type="submit" value="Ajouter" >
+            </form>
+        ';
+    }   
 
     public function listeressource($liste) {
         if (empty($liste)) {

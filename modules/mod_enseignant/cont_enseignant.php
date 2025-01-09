@@ -45,6 +45,10 @@ class Cont_enseignant{
             case "btnajoutressource":
                 $this->vue_enseignant->formulaireAjoutresource();
                 break;
+            case "btnajoutintervenant":
+                $this->vue_enseignant->affichelisteIntervenant($this->modele_enseignant->getlisteintervenant($_SESSION['idProjet']));
+                $this->vue_enseignant->formulaireAjoutIntervenant($this->modele_enseignant->getlistenseignantNonIntervenant($_SESSION['idProjet']));
+                break;
             case "ajoutressource":
                 $this->ajoutRessource();
                 break;

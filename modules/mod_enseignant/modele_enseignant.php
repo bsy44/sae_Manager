@@ -87,6 +87,18 @@ class modele_enseignant extends connexion{
         return $requete->execute([$idProjet, $nomRessource, $lienRessource]);
     }
 
+    public function getlistenseignantNonIntervenant($idProjet){
+        $requete  = self::$bdd->prepare('select * from enseignant where idEns not in (select idEns from estIntervenant where idProjet = ?)');        
+        $requete->execute([$idProjet]);
+        return $requete->fetchAll();
+    }
+
+    public function getlisteintervenant($idProjet){
+        $requete  = self::$bdd->prepare('select * from enseignant where idEns  in (select idEns from estIntervenant where idProjet = ?)');        
+        $requete->execute([$idProjet]);
+        return $requete->fetchAll();
+    }
+
 
 
 }
