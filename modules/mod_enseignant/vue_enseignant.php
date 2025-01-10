@@ -131,7 +131,6 @@ class vue_enseignant{
 
     public function listeressource($liste) {
 
-        
         if (empty($liste)) {
             echo "<p>Aucune Ressource</p>";
             return;
@@ -166,7 +165,6 @@ class vue_enseignant{
         
         foreach ($liste as $elem) {
             echo 
-            
             '<tr><td>'  . htmlspecialchars($elem['nom']) . '</td>' .
             '<td>'  . htmlspecialchars($elem['datePublication']) . '</td>' .
             '<td>'  . htmlspecialchars($elem['dateLimite']) . '</td>' .
