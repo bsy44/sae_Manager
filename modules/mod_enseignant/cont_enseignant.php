@@ -58,8 +58,8 @@ class Cont_enseignant{
             case "ajoutIntervenant":
                 $this->ajoutIntervenant();
                 break;
-            case "validationGroupe":
-                $this->modele_enseignant->validationGroupe();
+            case "consulterGroupe":
+                $this->afficherGroupe();
                 break;
         }
     }
@@ -138,6 +138,11 @@ class Cont_enseignant{
             $this->vue_enseignant->formulaireAjoutIntervenant($this->modele_enseignant->getlistenseignantNonIntervenant($_SESSION['idProjet']));
         }
     }
-    
+
+    public function afficherGroupe() {
+        $groupes = $this->modele_enseignant->getGroupePropose($_SESSION['idProjet']);
+        $this->vue_enseignant->groupeProposer("1.0", $groupes);
+    }
+
 }
 ?>

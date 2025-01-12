@@ -4,10 +4,10 @@ class vue_enseignant{
     public function acceuil() {
         echo '
             <form action="index.php?module=mod_connexion&action=deconnexion" method="POST">
-            <input type="submit" value="Se déconnecter">
+                <input type="submit" value="Se déconnecter">
             </form>
             <form action="index.php?module=mod_enseignant&action=btnajoutsae" method="POST">
-            <input type="submit" value="Ajout Saé">
+                <input type="submit" value="Ajout Saé">
             </form>
         ';
     }
@@ -55,6 +55,9 @@ class vue_enseignant{
         </form>
         <form action="index.php?module=mod_enseignant&action=btnajoutintervenant" method="POST">
             <input type="submit" value="Ajouter Intervenant">
+        </form>
+        <form action="index.php?module=mod_enseignant&action=consulterGroupe" method="POST">
+            <input type="submit" value="Consulter groupe">
         </form>
         ';
     }
@@ -173,6 +176,14 @@ class vue_enseignant{
             '<td>'  . htmlspecialchars($elem['description']) . '</td></tr>';
         }
         echo "</table>";
+    }
+
+    public function groupeProposer($sae, $liste){
+        echo "<p> Voici les groupes pour la saé $sae proposé : </p><br>";
+
+        foreach ($liste as $groupes) {
+            echo "<p>Groupe " . $groupes['idGroupe'] . " : ". $groupes['idEtudiant']."</p>";
+        }
     }
     
 }

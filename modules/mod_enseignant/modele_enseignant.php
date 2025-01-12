@@ -103,8 +103,12 @@ class modele_enseignant extends connexion{
         $requete  = self::$bdd->prepare('insert into estIntervenant (idEns, idProjet) values ( ?, ?)');
         return $requete->execute([$idEns, $idProjet]);
     }
-    
 
+    function getGroupePropose($sae){
+        $requete = self::$bdd->prepare('SELECT * FROM groupeTemporaire where  idProjet = ?');
+        $requete->execute([$sae]);
+        return $requete->fetchAll();
+    }
 }
 
 ?>
