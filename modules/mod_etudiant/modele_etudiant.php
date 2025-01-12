@@ -1,23 +1,36 @@
 <?php
-class modele_etudiant extends connexion{ 
+class modele_etudiant extends connexion{
 
-    public function getListeEtudiant(){
-        $requete  = self::$bdd->prepare('select * from etudiant');
-        $requete->execute();
+    public function getListeEtudiantParSem($semestre){
+        $requete  = self::$bdd->prepare('SELECT * FROM etudiant WHERE semestre = ?');
+        $requete->execute([$semestre]);
         $res = $requete->fetchAll();
         return $res;
     }
-   
+
+    public function getSemestre($login) {
+        $requete = self::$bdd->prepare('SELECT semestre FROM etudiant WHERE login = ?');
+        $requete->execute([$login]);
+        return $requete->fetch();
+    }
+
     public function getDepotsDisponibles($idProjet) {
         $stmt = self::$bdd->prepare("SELECT * FROM depot WHERE idProjet = ?");
         $stmt->execute([$idProjet]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function insertionGrpTemporaire($idEtudiant, $idProjet) {
-        $req = self::$bdd->prepare('INSERT INTO groupeTemporaire (idEtudiant, idProjet) values (?, ?)');
-        return $req->execute([$idEtudiant, $idProjet]);
+    public function insertionGrpTemporaire($idGroupe, $idEtudiant, $idProjet) {
+        $req = self::$bdd->prepare('INSERT INTO groupeTemporaire (idGroupe, idEtudiant, idProjet) values (?, ?, ?)');
+        return $req->execute([$idGroupe, $idEtudiant, $idProjet]);
     }
+
+    public function getLastIdGroupe() {
+        $req = self::$bdd->query('SELECT MAX(idGroupe) AS last_id FROM groupeTemporaire');
+        $result = $req->fetch();
+        return $result['last_id'] ?? 0;
+    }
+
     public function getlisteSAE($login){
         $requete  = self::$bdd->prepare('select * from projet where idProjet = (SELECT idProjet from groupe where idEtu = (select idEtu from etudiant where login = ?))');
         $requete->execute([$login]);

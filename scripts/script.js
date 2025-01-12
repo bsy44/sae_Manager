@@ -3,7 +3,7 @@ let bouttonEleve = document.getElementById("ajouterEleve");
 let nbEleve = 1;
 
 bouttonEleve.addEventListener("click", () => {
-    if (nbEleve < 4) {
+    if (nbEleve < 10) {
         nbEleve++;
         let uniqueId = `nom${nbEleve}`;
         let option = document.createElement("div");

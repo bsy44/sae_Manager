@@ -5,10 +5,20 @@ include_once 'vue_etudiant.php';
 class Cont_etudiant {
     private $vue_etudiant;
     private $modele_etudiant;
-    private $action; 
+    private $action;
+    public static $idGroupe;
     public function __construct() {
+        self::$idGroupe = 1;
         $this->vue_etudiant = new vue_etudiant();
         $this->modele_etudiant = new modele_etudiant();
+
+        if (isset($_SESSION['login'])) {
+            $etudiantInfo = $this->modele_etudiant->getSemestre($_SESSION['login']);
+            if ($etudiantInfo) {
+                $_SESSION['semestre'] = $etudiantInfo['semestre'];
+            }
+        }
+
         if (isset($_GET['idprojet'])) {
             $_SESSION['idProjet'] = $_GET['idprojet'];
         }
@@ -42,10 +52,10 @@ class Cont_etudiant {
         }
     }
     public function afficher(){
+
         $this->vue_etudiant->menu();
         $this->vue_etudiant->affichelisteSAE("En cours", $this->modele_etudiant->getlisteSAE($_SESSION['login']), "consultsae");
         $this->vue_etudiant->affichelisteSAE("En attente de propositon de groupe", $this->modele_etudiant->getListeSaeSansGroupe($_SESSION['login']), "formpropgrp");
-        
     }
 
     public function exec(){
@@ -57,7 +67,7 @@ class Cont_etudiant {
                 $this->formGroupe();
                 break;
             case "formpropgrp" :
-                $this->vue_etudiant->formGroupe($this->modele_etudiant->getListeEtudiant());
+                $this->vueFormGroupe();
             case "consultsae":
                 $this->afficherDepots();
                 break;
@@ -67,19 +77,29 @@ class Cont_etudiant {
         }
     }
 
-    public function formGroupe(){
-        for ($i = 1; $i <= 4; $i++) {
+    public function vueFormGroupe(){
+        $semestre = $_SESSION['semestre'];
+        $this->vue_etudiant->formGroupe($this->modele_etudiant->getListeEtudiantParSem($semestre));
+    }
+
+    public function formGroupe() {
+        self::$idGroupe = $this->modele_etudiant->getLastIdGroupe()+1;
+        $insertionReussie = true;
+
+        for ($i = 1; $i <= 10; $i++) {
             if (isset($_POST["idEtu{$i}"])) {
-                $idEtudiant = isset($_POST["idEtu{$i}"]) ? $_POST["idEtu{$i}"] : exit; 
-                if($this->modele_etudiant->insertionGrpTemporaire($idEtudiant, $_SESSION['idProjet'])){
-                    $this->afficher();
-                }
-                else{
-                    $this->vue_etudiant->formGroupe($this->modele_etudiant->getPrenomEtudiant());
+                $idEtudiant = $_POST["idEtu{$i}"];
+                if (!$this->modele_etudiant->insertionGrpTemporaire(self::$idGroupe, $idEtudiant, $_SESSION['idProjet'])) {
+                    $insertionReussie = false;
                 }
             }
         }
-        
+
+        if ($insertionReussie) {
+            $this->afficher();
+        } else {
+            $this->vue_etudiant->formGroupe($this->modele_etudiant->getListeEtudiantParSem($_SESSION['semestre']));
+        }
     }
 }
 ?>
