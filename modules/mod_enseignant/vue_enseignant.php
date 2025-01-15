@@ -54,7 +54,7 @@ class vue_enseignant{
             <input type="submit" value="Ajouter Depot">
         </form>
         <form action="index.php?module=mod_enseignant&action=btnajoutintervenant" method="POST">
-            <input type="submit" value="Ajouter Intervenant">
+            <input type="submit" value="Intervenant">
         </form>
         ';
     }
