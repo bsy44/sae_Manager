@@ -47,5 +47,16 @@ class modele_etudiant extends connexion{
         $stmt = self::$bdd->prepare("INSERT INTO DepotEtudiants (iddepotetudiant, idEtud, fichier, date_depot) VALUES (?, ?, ?, ?)");
         return $stmt->execute([$iddepotetudiant, $idEtud, $fichier, $date_depot]);
     }
+
+    public function getCheckListe($login, $idProjet){
+        $requete  = self::$bdd->prepare('select * from checkListe where idGroupe = (select idGroupe from groupe where idEtu = (select idEtu from etudiant where login = ?) and idProjet = ?)');
+        $requete->execute([$login, $idProjet]);
+        return $requete->fetchAll();
+    }
+
+    public function ajoutcheckliste($login, $msg){
+        $req = self::$bdd->prepare('INSERT INTO checkListe (idGroupe, msg) values ((select idgroupe from groupe where idEtu = (select idEtu from etudiant where login = ?)), ?)');
+        return $req->execute([$login, $msg]);
+    }
 }
 ?>

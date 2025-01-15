@@ -73,5 +73,25 @@ class vue_etudiant {
 
         ';
     }
+
+    public function affichcheckllist($liste){
+        echo'
+            <fieldset>
+            <legend>Check List</legend>';
+
+            foreach($liste as $elem){
+                echo'
+                <div>
+                    <input type=checkbox>
+                    <label>'. htmlspecialchars($elem['msg']) . '</label>
+                </div>
+                ';
+            }
+        
+            echo '
+            <form action="index.php?module=mod_etudiant&action=ajoutcheckbox" METHOD="post" ">
+            <input type=checkbox><input type = text name=checkboxmsg></fieldset><input type="submit" value=ajouter></form>';
+        
+    }
 }
 ?>

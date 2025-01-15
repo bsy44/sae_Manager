@@ -28,6 +28,56 @@ class Cont_etudiant {
         $this->action =  isset($_GET['action'])?  $_GET['action'] : "Bienvenue";
     }
 
+
+    public function exec(){
+        switch($this->action){
+            case "Bienvenue":
+                $this->afficher();
+                break;
+            case 'envoieProp' : 
+                $this->formGroupe();
+                break;
+            case "formpropgrp" :
+                $this->vue_etudiant->formGroupe($this->modele_etudiant->getListeEtudiant());
+                break;
+            case "consultsae":
+                $this->afficherDepots();
+                $this->vue_etudiant->affichcheckllist($this->modele_etudiant->getCheckListe($_SESSION['login'], $_SESSION['idProjet']));
+                break;
+            case "consulterdepot":
+                $this->deposerFichier();
+                break;  
+            case "ajoutcheckbox":
+                if (!empty($_POST["checkboxmsg"])){
+                    $this->modele_etudiant->ajoutcheckliste($_SESSION['login'],$_POST["checkboxmsg"]);
+                }
+                $this->vue_etudiant->affichcheckllist($this->modele_etudiant->getCheckListe($_SESSION['login'], $_SESSION['idProjet']));
+                break;
+        }
+    }
+
+    public function afficher(){
+        $this->vue_etudiant->menu();
+        $this->vue_etudiant->affichelisteSAE("En cours", $this->modele_etudiant->getlisteSAE($_SESSION['login']), "consultsae");
+        $this->vue_etudiant->affichelisteSAE("En attente de propositon de groupe", $this->modele_etudiant->getListeSaeSansGroupe($_SESSION['login']), "formpropgrp");
+        
+    }
+
+    public function formGroupe(){
+        for ($i = 1; $i <= 4; $i++) {
+            if (isset($_POST["idEtu{$i}"])) {
+                $idEtudiant = isset($_POST["idEtu{$i}"]) ? $_POST["idEtu{$i}"] : exit; 
+                if($this->modele_etudiant->insertionGrpTemporaire($idEtudiant, $_SESSION['idProjet'])){
+                    $this->afficher();
+                }
+                else{
+                    $this->vue_etudiant->formGroupe($this->modele_etudiant->getPrenomEtudiant());
+                }
+            }
+        }
+        
+    }
+
     public function afficherDepots() {
         $depots = $this->modele_etudiant->getDepotsDisponibles($_SESSION['idProjet']);
         $this->vue_etudiant->afficherDepots($depots);
@@ -67,7 +117,7 @@ class Cont_etudiant {
                 $this->formGroupe();
                 break;
             case "formpropgrp" :
-                $this->vueFormGroupe();
+                $this->vue_etudiant->formGroupe($this->modele_etudiant->getListeEtudiant());
             case "consultsae":
                 $this->afficherDepots();
                 break;
