@@ -34,7 +34,7 @@ class vue_enseignant{
     
     public function affichelisteSAE($titre, $liste) {
         if (empty($liste)) {
-            echo '<p>Aucun SAE ' . $titre . '</p>';
+            echo '<p>Aucune SAE ' . $titre . '</p>';
             return;
         }
         echo '<h3>' . $titre . '</h3>'; 
@@ -55,6 +55,9 @@ class vue_enseignant{
         </form>
         <form action="index.php?module=mod_enseignant&action=btnajoutintervenant" method="POST">
             <input type="submit" value="Ajouter Intervenant">
+        </form>
+        <form action="index.php?module=mod_enseignant&action=groupeTemporaire" method="POST">
+            <input type="submit" value="Groupe en attente de validation">
         </form>
         <form action="index.php?module=mod_enseignant&action=consulterGroupe" method="POST">
             <input type="submit" value="Consulter groupe">
@@ -179,7 +182,7 @@ class vue_enseignant{
 
     public function consulterGroupeProposer($liste) {
         if ($liste == null) {
-            echo "<p>Aucun groupe n'a été proposé</p>";
+            echo "<p>Aucun groupe proposé</p>";
             return;
         }
 
@@ -221,6 +224,10 @@ class vue_enseignant{
         ";
 
         echo "<a href='index.php?module=mod_enseignant&action=consulterGroupe'>Retour</a>";
+    }
+
+    public function consulterGroupe($liste){
+
     }
 }
 ?>

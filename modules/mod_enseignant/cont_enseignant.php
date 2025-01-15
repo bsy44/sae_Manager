@@ -58,8 +58,8 @@ class Cont_enseignant{
             case "ajoutIntervenant":
                 $this->ajoutIntervenant();
                 break;
-            case "consulterGroupe":
-                $this->ConsulterGroupe();
+            case "groupeTemporaire":
+                $this->ConsulterGroupeEnAttente();
                 break;
             case "detailGroupe":
                 $this->detailGroupe();
@@ -146,7 +146,7 @@ class Cont_enseignant{
         }
     }
 
-    public function ConsulterGroupe() {
+    public function ConsulterGroupeEnAttente() {
         $groupes = $this->modele_enseignant->getGroupePropose($_SESSION['idProjet']);
         $this->vue_enseignant->consulterGroupeProposer($groupes);
     }
@@ -167,10 +167,15 @@ class Cont_enseignant{
                 echo "Groupe accepté avec les étudiants : " . implode(", ", $etudiants);
                 foreach ($etudiants as $idEtudiant) {
                     $idEtudiant = htmlspecialchars($idEtudiant);
-                    //$this->modele_enseignant->insertionFinaleGroupe($idGroupe, $idEtudiant, $idProjet);
+                    $this->modele_enseignant->insertionFinaleGroupe($idGroupe, $idEtudiant, $idProjet);
+                    $this->modele_enseignant->supprimerGroupeTemporaire($idGroupe, $idEtudiant,$idProjet);
+                    
                 }
             } else if ($action === "Refuser groupe") {
                 echo "Groupe refusé";
+                foreach($etudiants as $idEtudiant){
+                    $this->modele_enseignant->supprimerGroupeTemporaire($idGroupe, $idEtudiant, $idProjet);
+                }
             }
         } else {
             echo "Erreur lors de l'envoie du formulaire.";

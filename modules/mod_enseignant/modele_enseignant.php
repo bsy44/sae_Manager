@@ -117,13 +117,19 @@ class modele_enseignant extends connexion{
     }
 
     function insertionFinaleGroupe($idGroupe, $idEtudiant, $idProjet){
-        $req = self::$bdd->prepare('INSERT INTO groupe (idGroupe, idEtu, idProjet) values (?, ?, ?)');
+        $req = self::$bdd->prepare('INSERT INTO groupe (idGroupe, idEtudiant, idProjet) values (?, ?, ?)');
         return $req->execute([$idGroupe, $idEtudiant, $idProjet]);
     }
 
     function supprimerGroupeTemporaire($idGroupe, $idEtudiant, $idProjet){
         $req = self::$bdd->prepare('DELETE FROM groupeTemporaire WHERE idGroupe = ? AND idEtudiant = ? AND idProjet = ?');
         return $req->execute([$idGroupe, $idEtudiant, $idProjet]);
+    }
+
+    function getGroupe($sae){
+        $req = self::$bdd->prepare('SELECT * FROM etudiant JOIN groupe on idEtu = idEtudiant where idProjet = ?');
+        $req->execute([$sae]);
+        return $req->fetchAll();
     }
 }
 ?>
