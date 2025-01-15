@@ -7,9 +7,9 @@ class modele_enseignant extends connexion{
         $res = $requete->fetch();
         return $res['idEns'];
     }
-    public function ajouterSAE($intitule, $dateDebut,$dateFin, $description, $lien, $annee, $semestre, $idEns){
-        $requete  = self::$bdd->prepare('insert into projet (intitule, DateDebut, DateFin, description, lien, annee,semestre,idEns) values ( ?, ?, ?, ?, ?, ?, ?, ?)');
-        return $requete->execute([$intitule, $dateDebut, $dateFin, $description, $lien, $annee, $semestre, $idEns]);
+    public function ajouterSAE($intitule, $dateDebut,$dateFin, $description, $lien, $semestre, $idEns, $coresponsable){
+        $requete  = self::$bdd->prepare('insert into projet (intitule, DateDebut, DateFin, description, lien,semestre,idEns, coresponsable) values ( ?, ?, ?, ?, ?, ?, ?, ?)');
+        return $requete->execute([$intitule, $dateDebut, $dateFin, $description, $lien, $semestre, $idEns, $coresponsable]);
     }
 
     
@@ -92,6 +92,7 @@ class modele_enseignant extends connexion{
         $requete->execute([$idProjet]);
         return $requete->fetchAll();
     }
+
 
     public function getlisteintervenant($idProjet){
         $requete  = self::$bdd->prepare('select * from enseignant where idEns  in (select idEns from estIntervenant where idProjet = ?)');        
