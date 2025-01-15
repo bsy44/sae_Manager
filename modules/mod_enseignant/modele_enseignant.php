@@ -105,10 +105,25 @@ class modele_enseignant extends connexion{
     }
 
     function getGroupePropose($sae){
-        $requete = self::$bdd->prepare('SELECT * FROM groupeTemporaire where  idProjet = ?');
+        $requete = self::$bdd->prepare('SELECT * FROM groupeTemporaire where idProjet = ?');
         $requete->execute([$sae]);
         return $requete->fetchAll();
     }
-}
 
+    function detailEleve($igGrp){
+        $requete = self::$bdd->prepare('SELECT * FROM etudiant JOIN groupeTemporaire on idEtu = idEtudiant where idGroupe = ?');
+        $requete->execute([$igGrp]);
+        return $requete->fetchAll();
+    }
+
+    function insertionFinaleGroupe($idGroupe, $idEtudiant, $idProjet){
+        $req = self::$bdd->prepare('INSERT INTO groupe (idGroupe, idEtu, idProjet) values (?, ?, ?)');
+        return $req->execute([$idGroupe, $idEtudiant, $idProjet]);
+    }
+
+    function supprimerGroupeTemporaire($idGroupe, $idEtudiant, $idProjet){
+        $req = self::$bdd->prepare('DELETE FROM groupeTemporaire WHERE idGroupe = ? AND idEtudiant = ? AND idProjet = ?');
+        return $req->execute([$idGroupe, $idEtudiant, $idProjet]);
+    }
+}
 ?>

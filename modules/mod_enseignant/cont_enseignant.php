@@ -59,7 +59,13 @@ class Cont_enseignant{
                 $this->ajoutIntervenant();
                 break;
             case "consulterGroupe":
-                $this->afficherGroupe();
+                $this->ConsulterGroupe();
+                break;
+            case "detailGroupe":
+                $this->detailGroupe();
+                break;
+            case "validationGroupe":
+                $this->validationGroupe();
                 break;
         }
     }
@@ -116,6 +122,7 @@ class Cont_enseignant{
         }
         
     }
+
     public function ajoutRessource(){
         $nomRessource = isset($_POST['nomRessource']) ? htmlspecialchars($_POST['nomRessource']) : exit;
         $lienRessource = isset($_POST['lienRessource']) ? htmlspecialchars($_POST['lienRessource']) : null;
@@ -139,10 +146,37 @@ class Cont_enseignant{
         }
     }
 
-    public function afficherGroupe() {
+    public function ConsulterGroupe() {
         $groupes = $this->modele_enseignant->getGroupePropose($_SESSION['idProjet']);
-        $this->vue_enseignant->groupeProposer("1.0", $groupes);
+        $this->vue_enseignant->consulterGroupeProposer($groupes);
     }
+
+    public function detailGroupe(){
+        $detail = $this->modele_enseignant->detailEleve($_GET['id']);
+        $this->vue_enseignant->afficheDetail($detail);
+    }
+
+    public function validationGroupe() {
+        if (isset($_POST['action'], $_POST['idGroupe'], $_POST['idProjet'], $_POST['idEtudiants'])) {
+            $action = htmlspecialchars($_POST['action']);
+            $idGroupe = htmlspecialchars($_POST['idGroupe']);
+            $idProjet = htmlspecialchars($_POST['idProjet']);
+            $etudiants = $_POST['idEtudiants'];
+
+            if ($action === "Accepter groupe") {
+                echo "Groupe accepté avec les étudiants : " . implode(", ", $etudiants);
+                foreach ($etudiants as $idEtudiant) {
+                    $idEtudiant = htmlspecialchars($idEtudiant);
+                    //$this->modele_enseignant->insertionFinaleGroupe($idGroupe, $idEtudiant, $idProjet);
+                }
+            } else if ($action === "Refuser groupe") {
+                echo "Groupe refusé";
+            }
+        } else {
+            echo "Erreur lors de l'envoie du formulaire.";
+        }
+    }
+
 
 }
 ?>

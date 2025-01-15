@@ -168,8 +168,7 @@ class vue_enseignant{
         </tr>";
         
         foreach ($liste as $elem) {
-            echo 
-            
+            echo
             '<tr><td>'  . htmlspecialchars($elem['nom']) . '</td>' .
             '<td>'  . htmlspecialchars($elem['datePublication']) . '</td>' .
             '<td>'  . htmlspecialchars($elem['dateLimite']) . '</td>' .
@@ -178,14 +177,50 @@ class vue_enseignant{
         echo "</table>";
     }
 
-    public function groupeProposer($sae, $liste){
-        echo "<p> Voici les groupes pour la saé $sae proposé : </p><br>";
+    public function consulterGroupeProposer($liste) {
+        if ($liste == null) {
+            echo "<p>Aucun groupe n'a été proposé</p>";
+            return;
+        }
 
-        foreach ($liste as $groupes) {
-            echo "<p>Groupe " . $groupes['idGroupe'] . " : ". $groupes['idEtudiant']."</p>";
+        $groupesAffiches = [];
+        $i = 1;
+        echo "<p>Voici les groupes qui vous ont été proposés pour cette SAÉ :</p>";
+
+        foreach ($liste as $groupe) {
+            $idGroupe = $groupe["idGroupe"];
+
+            if (!in_array($idGroupe, $groupesAffiches)) {
+                echo '<a href="index.php?module=mod_enseignant&action=detailGroupe&id=' . $idGroupe . '">Groupe ' . $i . '</a><br>';
+                $groupesAffiches[] = $idGroupe;
+                $i++;
+            }
         }
     }
-    
-}
 
+    public function afficheDetail($groupe) {
+        echo "<ul>";
+        foreach ($groupe as $etudiant) {
+            echo "<li>" . $etudiant["nom"] . " " . $etudiant["prenom"] . "</li>";
+        }
+        echo "</ul>";
+
+        echo "
+            <form action='index.php?module=mod_enseignant&action=validationGroupe' method='POST'>
+            <input type='hidden' name='idGroupe' value='" . $groupe[0]["idGroupe"] . "'>
+            <input type='hidden' name='idProjet' value='" . $groupe[0]["idProjet"] . "'>
+        ";
+        foreach ($groupe as $etudiant) {
+            echo "<input type='hidden' name='idEtudiants[]' value='" .$etudiant["idEtudiant"] . "'>";
+        }
+
+        echo "
+            <button type='submit' name='action' value='Accepter groupe' id='bouttonAccepter'>Accepter groupe</button>
+            <button type='submit' name='action' value='Refuser groupe' id='bouttonRefuser'>Refuser groupe</button>
+            </form>
+        ";
+
+        echo "<a href='index.php?module=mod_enseignant&action=consulterGroupe'>Retour</a>";
+    }
+}
 ?>
