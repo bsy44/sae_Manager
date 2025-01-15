@@ -6,7 +6,6 @@ class Cont_enseignant{
     private $vue_enseignant;
     private $modele_enseignant;
     private $action;
-    private $idProjet;
     public function __construct(){
         $this->vue_enseignant = new vue_enseignant();    
         $this->modele_enseignant = new modele_enseignant();
@@ -18,23 +17,19 @@ class Cont_enseignant{
     }
     public function acceuil(){
         $this->vue_enseignant->acceuil();
-        $this->vue_enseignant->affichelisteSAE("En cours", $this->modele_enseignant->getlisteSAEencours($_SESSION['login']));
-        $this->vue_enseignant->affichelisteSAE("A Venir", $this->modele_enseignant->getlisteSAEavenir($_SESSION['login']));
-        $this->vue_enseignant->affichelisteSAE("Terminé", $this->modele_enseignant->getlisteSAEtermine($_SESSION['login']));
+
     }
 
     public function exec(){
-       
         switch($this->action){
-            case "Bienvenue";
+            case "Bienvenue":
                 $this->acceuil();
                 break;
             case "btnajoutsae":
-                $this->acceuil();
                 $this->vue_enseignant->formulaireAjoutSAE($this->modele_enseignant->getListeSemestre(), $this->modele_enseignant->getListeEnseignant($_SESSION['login']));
                 break;
             case "ajoutsae":
-                $this->ajoutersae();
+                $this->ajouterSAE();
                 break;
             case "consultsae":
                 $this->detailsSae();
@@ -67,6 +62,9 @@ class Cont_enseignant{
             case "validationGroupe":
                 $this->validationGroupe();
                 break;
+            case "supprimerSae":
+                $this->supprimerSae();
+                break;
         }
     }
 
@@ -74,7 +72,7 @@ class Cont_enseignant{
         return $this->modele_enseignant->idEns($_SESSION['login']);
     }
 
-    public function ajouterSAE(){
+    public function ajouterSAE() {
         $intitule = isset($_POST['intitule']) ? htmlspecialchars($_POST['intitule']) : exit;
         $dateDebut = isset($_POST['DateDebut']) ? htmlspecialchars($_POST['DateDebut']) : null;
         $dateFin = isset($_POST['DateFin']) ? htmlspecialchars($_POST['DateFin']) : null;
@@ -90,20 +88,54 @@ class Cont_enseignant{
         }
         else if ($this->modele_enseignant->ajouterSAE($intitule, $dateDebut,$dateFin, $description, $lien, $semestre, $idEns, $coReposable) ){
             $this->acceuil();
+        } else {
+            echo 'Erreur : Impossible d\'ajouter la SAE.';
         }
         else{
             $this->vue_enseignant->formulaireAjoutSAE($this->modele_enseignant->getListeSemestre(), $this->modele_enseignant->getListeEnseignant($_SESSION['login']));
         }
             
     }
-    
-    public function detailsSae(){
-        if ($this->modele_enseignant->peutModifier($this->getIdEns(), $_SESSION['idProjet'])){
-            $this->vue_enseignant->outilsAjout();
+
+    public function supprimerSae()
+    {
+        $idProjet = isset($_POST['idProjet']) ? intval($_POST['idProjet']) : null;
+
+        if ($idProjet && $this->modele_enseignant->supprimerSae($idProjet)) {
+            echo '<div class="alert-success">SAE supprimée !</div>';
+            $this->acceuil();
+        } else {
+            echo '<div class="alert-danger">Erreur lors de la suppression de la SAE</div>';
+            $this->detailsSae();
         }
-        $this->vue_enseignant->listeressource($this->modele_enseignant-> getRessource($_SESSION['idProjet']));
-        $this->vue_enseignant->listeDepot($this->modele_enseignant-> getDepot($_SESSION['idProjet']));
+
     }
+
+
+
+//    public function detailsSae(){
+//        if ($this->modele_enseignant->peutModifier($this->getIdEns(), $_SESSION['idProjet'])){
+//            $this->vue_enseignant->outilsAjout();
+//        }
+//        $this->vue_enseignant->listeressource($this->modele_enseignant-> getRessource($_SESSION['idProjet']));
+//        $this->vue_enseignant->listeDepot($this->modele_enseignant-> getDepot($_SESSION['idProjet']));
+//
+//
+//    }
+
+    public function detailsSae() {
+
+        if (!isset($_SESSION['idProjet'])) {
+            echo '<div class="alert-danger">Aucune SAE sélectionnée</div>';
+            $this->acceuil();
+            return;
+        }
+        $idProjet = $_SESSION['idProjet'];
+        $ressources = $this->modele_enseignant->getRessource($idProjet);
+        $depots = $this->modele_enseignant->getDepot($idProjet);
+        $this->vue_enseignant->detailsSae($ressources, $depots);
+    }
+
 
     public function ajoutDepot(){
         $nomDepot = isset($_POST['nomDepot']) ? htmlspecialchars($_POST['nomDepot']) : exit;

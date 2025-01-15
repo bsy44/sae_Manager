@@ -1,0 +1,156 @@
+/* Page principale */
+#enseignant-page {
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+
+}
+
+/* Header */
+#enseignant-header {
+    background-color: #313131;
+    color: white;
+    padding: 10px 20px;
+}
+
+#enseignant-logo {
+    font-size: 1.5rem;
+    color: white;
+}
+
+
+#enseignant-menu i {
+    font-size: 1.5rem;
+    color: white;
+    cursor: pointer;
+}
+
+/* Contenu principal */
+#enseignant-main {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 800px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#enseignant-welcome {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Sections SAE */
+.sae-section-title {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    color: #333;
+}
+
+.sae-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.sae-item {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: black;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.sae-item:hover {
+    background-color: #555;
+    transform: translateY(-2px);
+}
+
+.sae-section-title {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #333;
+}
+
+
+/* Footer */
+#enseignant-footer {
+    background-color: #313131;
+    color: white;
+    font-size: 0.9rem;
+    margin-top: auto;
+}
+
+
+#logout-icon {
+    font-size: 1.5rem;
+    color: black;
+    text-decoration: none;
+
+    border: 25px solid black; /* Ajoute un cadre */
+    border-radius: 50%; /* Arrondi le cadre pour un cercle */
+    transition: all 0.3s ease; /* Transition fluide pour les effets */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px; /* Largeur et hauteur fixes pour un cercle parfait */
+    height: 50px;
+}
+
+#logout-icon:hover {
+    color: #ff4d4d; /* Change la couleur de l'icône sur hover */
+    border-color: #ff4d4d; /* Change la couleur du cadre sur hover */
+    background-color: rgba(255, 77, 77, 0.1); /* Ajoute un léger fond rouge sur hover */
+}
+
+
+.add-button-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px; /* Espace sous le bouton */
+}
+
+.add-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    color: white;
+    font-size: 20px; /* Taille du "+" */
+    font-weight: bold;
+    text-decoration: none;
+    width: 150px; /* Largeur du bouton réduite */
+    height: 60px; /* Hauteur du bouton réduite */
+
+    text-align: center;
+    transition: transform 0.2s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.add-button-text {
+    font-size: 12px; /* Taille du texte "Ajouter SAE" */
+    margin-top: 5px;
+    text-transform: uppercase;
+}
+
+.add-button:hover {
+    transform: scale(1.1);
+}
+
+.sae-separator {
+    border: 5px solid rgb(0, 0, 0); /* Couleur de la ligne */
+    margin: 20px 0; /* Espacement autour de la ligne */
+    width: 80%; /* Largeur de la ligne */
+    margin-left: auto;
+    margin-right: auto;
+}
+

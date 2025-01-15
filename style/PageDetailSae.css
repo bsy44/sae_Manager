@@ -1,0 +1,130 @@
+
+/* Style général pour le corps de la page */
+body {
+    font-family: Arial, sans-serif; /* Police d'écriture générale */
+    background-color: #f4f4f9; /* Couleur d'arrière-plan de la page */
+    margin: 0; /* Suppression des marges */
+    padding: 0; /* Suppression des marges internes */
+}
+
+
+#enseignant-headerdetail {
+    margin: 0; /* Supprime les marges externes */
+    padding: 0; /* Supprime les marges internes */
+    background-color: #313131; /* Assure un fond noir */
+    box-shadow: none; /* Supprime toute ombre */
+    display: flex;
+    flex-direction: column; /* Les enfants sont empilés verticalement */
+    align-items: center;
+}
+/* Style pour le conteneur du logo */
+
+#logo-container {
+    position: absolute; /* Permet de positionner librement */
+    top: 20px; /* Distance depuis le haut du conteneur */
+    left: 20px; /* Distance depuis la gauche */
+}
+
+/* Style pour le logo */
+#enseignant-logo h1 {
+    margin: 0; /* Supprime les marges */
+    color: white; /* Couleur du texte */
+    font-size: 24px; /* Taille de la police */
+    text-decoration: none;
+}
+
+/* Style pour le header contenant les boutons d'ajout */
+#header-buttons {
+    background-color: #313131; /* Couleur de fond du header */
+
+    padding: 20px; /* Espacement interne */
+    display: flex; /* Disposition des boutons en ligne */
+    justify-content: center; /* Centrage horizontal des boutons */
+    gap: 20px; /* Espacement entre les boutons */
+}
+
+/* Style des boutons dans le header */
+#header-buttons button {
+    background-color: #0799b0; /* Couleur de fond des boutons */
+    border: none; /* Suppression des bordures */
+    color: white; /* Couleur du texte */
+    padding: 10px 20px; /* Espacement interne dans les boutons */
+    border-radius: 5px; /* Coins arrondis */
+    cursor: pointer; /* Curseur au survol */
+}
+
+/* Changement de couleur des boutons au survol */
+#header-buttons button:hover {
+    background-color: #083f77; /* Couleur au survol */
+}
+
+/* Style pour la section principale */
+#enseignant-main {
+    margin: 20px auto; /* Centrage et espacement externe */
+    width: 90%; /* Largeur limitée à 90% */
+    background: white; /* Couleur de fond de la section */
+    padding: 20px; /* Espacement interne */
+    border-radius: 8px; /* Coins arrondis */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre douce */
+}
+
+/* Style pour les titres des sections */
+.section-title {
+    font-size: 1.5rem; /* Taille de la police */
+    margin-bottom: 20px; /* Espacement sous le titre */
+    font-weight: bold; /* Texte en gras */
+    color: #333; /* Couleur du texte */
+    text-align: left; /* Alignement à gauche */
+}
+
+/* Style des tableaux */
+table {
+    width: 100%; /* Largeur complète */
+    border-collapse: collapse; /* Suppression des espaces entre les bordures */
+    margin-bottom: 15px; /* Espacement sous le tableau */
+}
+
+/* Style des cellules des tableaux */
+table th, table td {
+    padding: 10px; /* Espacement interne des cellules */
+    border-bottom: 5px solid #4f4d4d; /* Ligne séparatrice entre les lignes */
+}
+
+/* Style pour les en-têtes des tableaux */
+table th {
+    background-color: #4f4d4d; /* Couleur de fond des en-têtes */
+    font-weight: bold; /* Texte en gras */
+    text-align: left;/* Alignement à gauche */
+    color: white;
+}
+
+
+
+/* Style pour le bouton de suppression */
+#btn-delete-sae {
+    background-color: #dc3545; /* Couleur de fond */
+    color: white; /* Couleur du texte */
+    border: none; /* Suppression des bordures */
+    padding: 10px 20px; /* Espacement interne */
+    border-radius: 3px; /* Coins arrondis */
+    cursor: pointer; /* Curseur au survol */
+    display: block; /* Permet de gérer le centrage via margin */
+    margin: 20px auto; /* Centrage horizontal et espacement vertical */
+    text-align: center; /* Alignement du texte */
+}
+
+/* Changement de couleur au survol du bouton de suppression */
+#btn-delete-sae:hover {
+    background-color: #c82333; /* Couleur de fond au survol */
+}
+
+/* Style pour chaque section (ressources et dépôts) */
+#resources-section, #deposits-section {
+    margin-bottom: 50px; /* Espacement entre les sections */
+}
+
+/* Style pour les descriptions */
+table td:last-child {
+    color: #555; /* Couleur du texte pour la description */
+
+}

@@ -1,0 +1,93 @@
+/* GLOBAL */
+.page-connexion {
+
+    background: linear-gradient(140deg, #1c95e7, #61358f, #e17b04);
+
+    height: 100%;
+}
+
+
+
+
+
+
+#main-title {
+    position: relative;
+    font-family: 'Arial', sans-serif;
+    font-size: 2.0rem;
+    font-weight: bold;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    top: 200px;
+    left: 15px;
+    text-align: center;
+
+
+}
+
+
+/* CONNEXION */
+/* Formulaire */
+#connexion-form {
+    max-width: 350px;
+    padding: 15px;
+    border-radius: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+#connexion-container {
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 0;
+
+}
+
+/* Titre de la connexion */
+#connexion-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #007bff; /* Bleu primaire */
+}
+
+/* Champs d'entrée */
+#login-input,
+#password-input {
+    border: 1px solid #ced4da;
+    font-size: 1rem;
+}
+
+/* Message d'erreur */
+#error-message {
+    background-color: #f6b0b9;
+    color: #8c151f;
+    border: 1px solid #faacbf;
+    border-radius: 20px;
+    padding: 10px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* Bouton de connexion */
+#connexion-button {
+    background-color: #007bff;
+    border: none;
+    padding: 10px;
+    font-size: 1.2rem;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#connexion-button:hover {
+    background-color: #0056b3; /* Couleur plus foncée au survol */
+}
+
+
+
+/* FOOTER */
+footer {
+    font-family: "Sitka Text";
+}

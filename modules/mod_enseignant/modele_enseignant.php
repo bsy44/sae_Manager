@@ -12,7 +12,8 @@ class modele_enseignant extends connexion{
         return $requete->execute([$intitule, $dateDebut, $dateFin, $description, $lien, $semestre, $idEns, $coresponsable]);
     }
 
-    
+
+
     public function getlisteSAEencours($login){
         $requete  = self::$bdd->prepare('SELECT DISTINCT p.* FROM projet p
                                         LEFT JOIN estCoResponsable cr ON p.idProjet = cr.idProjet
@@ -103,6 +104,11 @@ class modele_enseignant extends connexion{
     public function ajoutIntervenant($idEns, $idProjet){
         $requete  = self::$bdd->prepare('insert into estIntervenant (idEns, idProjet) values ( ?, ?)');
         return $requete->execute([$idEns, $idProjet]);
+    }
+
+    public function supprimerSae($idProjet) {
+        $requete = self::$bdd->prepare('DELETE FROM projet WHERE idProjet = ?');
+        return $requete->execute([$idProjet]);
     }
 
     function getGroupePropose($sae){

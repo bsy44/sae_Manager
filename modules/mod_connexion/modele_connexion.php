@@ -25,6 +25,9 @@
             if ($result && isset($result['role'])) {
                 return $result['role'];
             }
+            return null;
+
         }
+
     }
 ?>
