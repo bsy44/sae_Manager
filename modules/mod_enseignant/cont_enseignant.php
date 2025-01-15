@@ -65,6 +65,9 @@ class Cont_enseignant{
             case "supprimerSae":
                 $this->supprimerSae();
                 break;
+            case "supInterveanant":
+                $this->supprimerIntervenant();
+                break;
         }
     }
 
@@ -88,9 +91,7 @@ class Cont_enseignant{
         }
         else if ($this->modele_enseignant->ajouterSAE($intitule, $dateDebut,$dateFin, $description, $lien, $semestre, $idEns, $coReposable) ){
             $this->acceuil();
-        } else {
-            echo 'Erreur : Impossible d\'ajouter la SAE.';
-        }
+        } 
         else{
             $this->vue_enseignant->formulaireAjoutSAE($this->modele_enseignant->getListeSemestre(), $this->modele_enseignant->getListeEnseignant($_SESSION['login']));
         }
@@ -130,6 +131,9 @@ class Cont_enseignant{
             $this->acceuil();
             return;
         }
+       if ($this->modele_enseignant->peutModifier($this->getIdEns(), $_SESSION['idProjet'])){
+           $this->vue_enseignant->outilsAjout();
+        }
         $idProjet = $_SESSION['idProjet'];
         $ressources = $this->modele_enseignant->getRessource($idProjet);
         $depots = $this->modele_enseignant->getDepot($idProjet);
@@ -144,7 +148,7 @@ class Cont_enseignant{
         $description = isset($_POST['descriptionDepot']) ? htmlspecialchars($_POST['descriptionDepot']) : null;
         if($datepublication>$datelimite){
             echo 'Date de fin ne peut pas être avant la date deébut';
-            $this->vue_enseignant->formulaireAjoutdepot();
+            return ;
         }
         else if ($this->modele_enseignant->ajoutDepot($_SESSION['idProjet'], $nomDepot, $datepublication, $datelimite, $description)){
             $this->detailsSae();
@@ -169,13 +173,13 @@ class Cont_enseignant{
 
     public function ajoutIntervenant(){
         $idens = isset($_POST['idens']) ? htmlspecialchars($_POST['idens']) : null;
-        if(!empty($idens) && $this->modele_enseignant->ajoutIntervenant($idens, $_SESSION['idProjet'])){
-            $this->detailsSae();
+        if(!empty($idens)){
+            $this->modele_enseignant->ajoutIntervenant($idens, $_SESSION['idProjet']);
         }
-        else{
-            $this->vue_enseignant->affichelisteIntervenant($this->modele_enseignant->getlisteintervenant($_SESSION['idProjet']));
-            $this->vue_enseignant->formulaireAjoutIntervenant($this->modele_enseignant->getlistenseignantNonIntervenant($_SESSION['idProjet']));
-        }
+        
+        $this->vue_enseignant->affichelisteIntervenant($this->modele_enseignant->getlisteintervenant($_SESSION['idProjet']));
+        $this->vue_enseignant->formulaireAjoutIntervenant($this->modele_enseignant->getlistenseignantNonIntervenant($_SESSION['idProjet']));
+        
     }
 
     public function ConsulterGroupeEnAttente() {
@@ -212,6 +216,15 @@ class Cont_enseignant{
         } else {
             echo "Erreur lors de l'envoie du formulaire.";
         }
+    }
+
+    public function supprimerIntervenant(){
+        $idEns = isset($_POST['idEns']) ? htmlspecialchars($_POST['idEns']) : null;
+        if(!empty($idEns)){
+            $this->modele_enseignant->supprimerIntervenant($idEns, $_SESSION['idProjet']);
+        }
+        $this->vue_enseignant->affichelisteIntervenant($this->modele_enseignant->getlisteintervenant($_SESSION['idProjet']));
+        $this->vue_enseignant->formulaireAjoutIntervenant($this->modele_enseignant->getlistenseignantNonIntervenant($_SESSION['idProjet']));
     }
 }
 ?>

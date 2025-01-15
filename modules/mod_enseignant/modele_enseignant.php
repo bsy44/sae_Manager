@@ -59,7 +59,7 @@ class modele_enseignant extends connexion{
         $requete2->execute([$idProjet]);
         $res2 = $requete2->fetch();
         if ($res && $idEns == $res['idEns']  || $res2 && $idEns == $res2['idEns'] ){
-            return true;
+            return true; 
         }
         else{
             return false;
@@ -89,8 +89,8 @@ class modele_enseignant extends connexion{
     }
 
     public function getlistenseignantNonIntervenant($idProjet){
-        $requete  = self::$bdd->prepare('select * from enseignant where idEns not in (select idEns from estIntervenant where idProjet = ?)');        
-        $requete->execute([$idProjet]);
+        $requete  = self::$bdd->prepare('select * from enseignant where idEns not in (select idEns from estIntervenant where idProjet = ?) and idEns != (select idEns from projet where idProjet= ? ) and idEns != (select coresponsable from projet where  idProjet= ? )');        
+        $requete->execute([$idProjet, $idProjet, $idProjet]);
         return $requete->fetchAll();
     }
 
@@ -107,7 +107,7 @@ class modele_enseignant extends connexion{
     }
 
     public function supprimerSae($idProjet) {
-        $requete = self::$bdd->prepare('DELETE FROM projet WHERE idProjet = ?');
+        $requete = self::$bdd->prepare(' DELETE FROM projet WHERE projet.idProjet = ? ');
         return $requete->execute([$idProjet]);
     }
 
@@ -137,6 +137,23 @@ class modele_enseignant extends connexion{
         $req = self::$bdd->prepare('SELECT * FROM etudiant JOIN groupe on idEtu = idEtudiant where idProjet = ?');
         $req->execute([$sae]);
         return $req->fetchAll();
+    }
+
+    public function getListeSemestre(){
+        $requete  = self::$bdd->prepare('select distinct semestre from etudiant');        
+        $requete->execute();
+        return $requete->fetchAll();
+    }
+    
+    public function getListeEnseignant($login){
+        $requete  = self::$bdd->prepare('select * from enseignant where login!= ?');        
+        $requete->execute([$login]);
+        return $requete->fetchAll();
+    }
+
+    public function supprimerIntervenant($idEns, $idProjet){
+        $req = self::$bdd->prepare('DELETE FROM estIntervenant WHERE idEns = ? AND idProjet = ?');
+        return $req->execute([$idEns, $idProjet]);
     }
 }
 ?>

@@ -125,23 +125,15 @@ class vue_enseignant
 
     public function outilsAjout()
     {
-        echo '
-        <form action="index.php?module=mod_enseignant&action=btnajoutressource" method="POST">
-            <input type="submit" value="Ajouter Ressource">
-        </form>
-        <form action="index.php?module=mod_enseignant&action=btnajoutdepot" method="POST">
-            <input type="submit" value="Ajouter Depot">
-        </form>
-        <form action="index.php?module=mod_enseignant&action=btnajoutintervenant" method="POST">
-            <input type="submit" value="Intervenant">
-        </form>
-        <form action="index.php?module=mod_enseignant&action=groupeTemporaire" method="POST">
-            <input type="submit" value="Groupe en attente de validation">
-        </form>
-        <form action="index.php?module=mod_enseignant&action=consulterGroupe" method="POST">
-            <input type="submit" value="Consulter groupe">
-        </form>
-        ';
+       echo '
+            <div id="header-buttons">
+            <button id="btn-add-resource" onclick="location.href=\'index.php?module=mod_enseignant&action=btnajoutressource\'">Ajouter Ressource</button>
+            <button id="btn-add-depot" onclick="location.href=\'index.php?module=mod_enseignant&action=btnajoutdepot\'">Ajouter Dépot</button>
+            <button id="btn-add-intervenant" onclick="location.href=\'index.php?module=mod_enseignant&action=btnajoutintervenant\'">Ajouter Intervenant</button>
+            <button id="btn-consulter-grp-temporaire" onclick="location.href=\'index.php?module=mod_enseignant&action=groupeTemporaire\'">Groupe en attente de validation</button>
+        </div>
+
+       ';
     }
 
     public function formulaireAjoutresource()
@@ -193,7 +185,11 @@ class vue_enseignant
             foreach ($liste as $elem) {
                 echo
                     '<tr><td>' . htmlspecialchars($elem['nom']) . '</td>' .
-                    '<td>' . htmlspecialchars($elem['prenom']) . '</td></tr>';
+                    '<td>' . htmlspecialchars($elem['prenom']) . '</td>
+                     <form action="index.php?module=mod_enseignant&action=supInterveanant" method="POST">
+                    <td> <input type="hidden" name="idEns" value="' . htmlspecialchars($elem['idEns']) . '"><button id="btn-delete-sae" type="submit">Supprimer</button> </td></form>
+                    </tr>';
+
             }
             echo "</table>";
         }
@@ -217,7 +213,7 @@ class vue_enseignant
         ';
     }
 
-//    public function listeressource($liste)
+//    public function listeressource($lisInterte)
 //    {
 //
 //
@@ -275,11 +271,7 @@ class vue_enseignant
             <h1>SAE Manager</h1>
         </a>
         </div>
-        <div id="header-buttons">
-            <button id="btn-add-resource" onclick="location.href=\'index.php?module=mod_enseignant&action=btnajoutressource\'">Ajouter Ressource</button>
-            <button id="btn-add-depot" onclick="location.href=\'index.php?module=mod_enseignant&action=btnajoutdepot\'">Ajouter Dépot</button>
-            <button id="btn-add-intervenant" onclick="location.href=\'index.php?module=mod_enseignant&action=btnajoutintervenant\'">Ajouter Intervenant</button>
-        </div>
+        
     </div>
 
     <div id="enseignant-main">
