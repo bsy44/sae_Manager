@@ -147,7 +147,7 @@
 }
 
 .sae-separator {
-    border: 5px solid black; /* Couleur de la ligne */
+    border: 5px solid rgb(0, 0, 0); /* Couleur de la ligne */
     margin: 20px 0; /* Espacement autour de la ligne */
     width: 80%; /* Largeur de la ligne */
     margin-left: auto;

@@ -102,7 +102,7 @@ class vue_enseignant
         echo '<h3 class="sae-section-title">' . htmlspecialchars($titre) . '</h3>';
 
         if (empty($liste)) {
-            echo '<p>Aucun SAE ' . htmlspecialchars($titre) . '</p>';
+            echo '<p>Aucune SAE ' . htmlspecialchars($titre) . '</p>';
         } else {
             echo '<div class="sae-list">';
             foreach ($liste as $projet) {
