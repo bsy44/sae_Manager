@@ -7,12 +7,21 @@ class modele_enseignant extends connexion{
         $res = $requete->fetch();
         return $res['idEns'];
     }
-    public function ajouterSAE($intitule, $dateDebut,$dateFin, $description, $lien, $annee, $semestre, $idEns){
-        $requete  = self::$bdd->prepare('insert into projet (intitule, DateDebut, DateFin, description, lien, annee,semestre,idEns) values ( ?, ?, ?, ?, ?, ?, ?, ?)');
-        return $requete->execute([$intitule, $dateDebut, $dateFin, $description, $lien, $annee, $semestre, $idEns]);
+    public function ajouterSAE($intitule, $dateDebut, $dateFin, $description, $lien, $annee, $semestre, $idEns) {
+        try {
+            $requete = self::$bdd->prepare(
+                'INSERT INTO projet (intitule, DateDebut, DateFin, description, lien, annee, semestre, idEns) 
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+            );
+            return $requete->execute([$intitule, $dateDebut, $dateFin, $description, $lien, $annee, $semestre, $idEns]);
+        } catch (PDOException $e) {
+            echo "Erreur lors de l'insertion de la SAE : " . $e->getMessage();
+            return false;
+        }
     }
 
-    
+
+
     public function getlisteSAEencours($login){
         $requete  = self::$bdd->prepare('SELECT DISTINCT p.* FROM projet p
                                         LEFT JOIN estCoResponsable cr ON p.idProjet = cr.idProjet
@@ -103,7 +112,19 @@ class modele_enseignant extends connexion{
         $requete  = self::$bdd->prepare('insert into estIntervenant (idEns, idProjet) values ( ?, ?)');
         return $requete->execute([$idEns, $idProjet]);
     }
-    
+
+    public function supprimerSae($idProjet) {
+        try {
+            $requete = self::$bdd->prepare('DELETE FROM projet WHERE idProjet = ?');
+            return $requete->execute([$idProjet]);
+        } catch (PDOException $e) {
+            echo "Erreur lors de la suppression de la SAE : " . $e->getMessage();
+            return false;
+        }
+    }
+
+
+
 
 }
 

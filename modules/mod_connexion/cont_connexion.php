@@ -58,8 +58,8 @@ class Cont_connexion {
             $this->redirectionRole($this->modele->getRole($login));
             exit;
         } else {
-            $this->vue->form_connexion();
-            $this->vue->messageErreurConnexion();
+            $this->vue->form_connexion(true);
+
         }
     }
     public function deconnexion() {
