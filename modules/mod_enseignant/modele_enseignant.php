@@ -7,9 +7,9 @@ class modele_enseignant extends connexion{
         $res = $requete->fetch();
         return $res['idEns'];
     }
-    public function ajouterSAE($intitule, $dateDebut,$dateFin, $description, $lien, $annee, $semestre, $idEns){
-        $requete  = self::$bdd->prepare('insert into projet (intitule, DateDebut, DateFin, description, lien, annee,semestre,idEns) values ( ?, ?, ?, ?, ?, ?, ?, ?)');
-        return $requete->execute([$intitule, $dateDebut, $dateFin, $description, $lien, $annee, $semestre, $idEns]);
+    public function ajouterSAE($intitule, $dateDebut,$dateFin, $description, $lien, $semestre, $idEns, $coresponsable){
+        $requete  = self::$bdd->prepare('insert into projet (intitule, DateDebut, DateFin, description, lien,semestre,idEns, coresponsable) values ( ?, ?, ?, ?, ?, ?, ?, ?)');
+        return $requete->execute([$intitule, $dateDebut, $dateFin, $description, $lien, $semestre, $idEns, $coresponsable]);
     }
 
     
@@ -93,6 +93,7 @@ class modele_enseignant extends connexion{
         return $requete->fetchAll();
     }
 
+
     public function getlisteintervenant($idProjet){
         $requete  = self::$bdd->prepare('select * from enseignant where idEns  in (select idEns from estIntervenant where idProjet = ?)');        
         $requete->execute([$idProjet]);
@@ -103,7 +104,24 @@ class modele_enseignant extends connexion{
         $requete  = self::$bdd->prepare('insert into estIntervenant (idEns, idProjet) values ( ?, ?)');
         return $requete->execute([$idEns, $idProjet]);
     }
+
+    public function ajoutCoResposable($idEns, $idProjet){
+        $requete  = self::$bdd->prepare('insert into estCoResponsable (idEns, idProjet) values ( ?, ?)');
+        return $requete->execute([$idEns, $idProjet]);
+    }
+
+    public function getListeSemestre(){
+        $requete  = self::$bdd->prepare('select distinct semestre from etudiant');        
+        $requete->execute();
+        return $requete->fetchAll();
+    }
     
+    public function getListeEnseignant($login){
+        $requete  = self::$bdd->prepare('select * from enseignant where login!= ?');        
+        $requete->execute([$login]);
+        return $requete->fetchAll();
+    }
+
 
 }
 

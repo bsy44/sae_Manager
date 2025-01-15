@@ -12,7 +12,15 @@ class vue_enseignant{
         ';
     }
     
-    public function formulaireAjoutSAE(){
+    public function formulaireAjoutSAE($listeSemestre, $listeEnseignant){
+        $optionsSemestre = '';
+        foreach ($listeSemestre as $elem) {
+            $optionsSemestre .= '<option value="' . htmlspecialchars($elem["semestre"]) . '">' . htmlspecialchars($elem["semestre"]) . '</option>';
+        }
+        $optionsPrenom = '';
+        foreach ($listeEnseignant as $enseignant) {
+            $optionsPrenom .= '<option value="' . htmlspecialchars($enseignant["idEns"]) . '">' . htmlspecialchars($enseignant["prenom"]) . '</option>';
+        }
         echo '
              <form action="index.php?module=mod_enseignant&action=ajoutsae" method="POST">
                 <h3>SAE</h3>
@@ -23,8 +31,8 @@ class vue_enseignant{
                         <td>Date de fin:</td><td><input type="Date" name="DateFin" required></td>
                         <td>Description :</td><td><input type="text" name="description" required></td>
                         <td>Lien :</td><td><input type="text" name="lien" required></td>
-                        <td>annee :</td><td><input type="text" name="annee" required></td>
-                        <td>Semestre :</td><td><input type="text" name="semestre" required></td>
+                        <td>Semestre</td><td><select name="semestre">' . $optionsSemestre . '</select></td>
+                        <td>Co responsable</td><td><select name="coresposable">' . $optionsPrenom . '</select></td>
                         <td><input type="submit" value="Ajouter"></td>
                     </tr>
                 </table>

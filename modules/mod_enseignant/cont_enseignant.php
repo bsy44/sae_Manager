@@ -31,7 +31,7 @@ class Cont_enseignant{
                 break;
             case "btnajoutsae":
                 $this->acceuil();
-                $this->vue_enseignant->formulaireAjoutSAE();
+                $this->vue_enseignant->formulaireAjoutSAE($this->modele_enseignant->getListeSemestre(), $this->modele_enseignant->getListeEnseignant($_SESSION['login']));
                 break;
             case "ajoutsae":
                 $this->ajoutersae();
@@ -74,19 +74,19 @@ class Cont_enseignant{
         $dateFin = isset($_POST['DateFin']) ? htmlspecialchars($_POST['DateFin']) : null;
         $description = isset($_POST['description']) ? htmlspecialchars($_POST['description']) : null;
         $lien = isset($_POST['lien']) ? htmlspecialchars($_POST['lien']) : null;
-        $annee = isset($_POST['annee']) ? htmlspecialchars($_POST['annee']) : null;
         $semestre = isset($_POST['semestre']) ? htmlspecialchars($_POST['semestre']) : null;
+        $coReposable = isset($_POST['coresposable']) ? htmlspecialchars($_POST['coresposable']) : null;
         $idEns = $this->getIdEns();
 
         if($dateDebut>$dateFin){
            echo 'Date de fin ne peut pas être avant la date deébut';
-           $this->vue_enseignant->formulaireAjoutSAE();
+           $this->vue_enseignant->formulaireAjoutSAE($this->modele_enseignant->getListeSemestre(), $this->modele_enseignant->getListeEnseignant($_SESSION['login']));
         }
-        else if ($this->modele_enseignant->ajouterSAE($intitule, $dateDebut,$dateFin, $description, $lien, $annee, $semestre, $idEns)){
+        else if ($this->modele_enseignant->ajouterSAE($intitule, $dateDebut,$dateFin, $description, $lien, $semestre, $idEns, $coReposable) ){
             $this->acceuil();
         }
         else{
-            $this->vue_enseignant->formulaireAjoutSAE();
+            $this->vue_enseignant->formulaireAjoutSAE($this->modele_enseignant->getListeSemestre(), $this->modele_enseignant->getListeEnseignant($_SESSION['login']));
         }
             
     }
