@@ -26,35 +26,44 @@ class Cont_etudiant {
             $_SESSION['idDepot'] = $_GET['iddepot'];
         }
         $this->action =  isset($_GET['action'])?  $_GET['action'] : "Bienvenue";
+        
     }
 
 
-    public function exec(){
-        switch($this->action){
+    public function exec() {
+        switch($this->action) {
             case "Bienvenue":
                 $this->afficher();
                 break;
-            case 'envoieProp' : 
+            case "envoieProp":
                 $this->formGroupe();
                 break;
-            case "formpropgrp" :
+            case "formpropgrp":
                 $this->vue_etudiant->formGroupe($this->modele_etudiant->getListeEtudiantParSem($_SESSION['semestre']));
                 break;
             case "consultsae":
                 $this->afficherDepots();
                 $this->vue_etudiant->affichcheckllist($this->modele_etudiant->getCheckListe($_SESSION['login'], $_SESSION['idProjet']));
                 break;
-            case "consulterdepot":
+            case "deposerFichier": 
                 $this->deposerFichier();
-                break;  
+                break;
+        
             case "ajoutcheckbox":
-                if (!empty($_POST["checkboxmsg"])){
-                    $this->modele_etudiant->ajoutcheckliste($_SESSION['login'],$_POST["checkboxmsg"]);
+                if (!empty($_POST["checkboxmsg"])) {
+                    $this->modele_etudiant->ajoutcheckliste($_SESSION['login'], $_POST["checkboxmsg"]);
                 }
                 $this->vue_etudiant->affichcheckllist($this->modele_etudiant->getCheckListe($_SESSION['login'], $_SESSION['idProjet']));
                 break;
+            case "consulterdepot":
+               $this->deposerFichier();
+                break;
+            case "deposer":
+                $this->deposerFichier();
+                break;
         }
     }
+    
 
     public function afficher(){
         $this->vue_etudiant->menu();
@@ -69,23 +78,35 @@ class Cont_etudiant {
     }
 
     public function deposerFichier() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $idEtud = $_SESSION['idEtud'] ?? null; 
-            $idDepot = $_POST['idDepot'] ?? null; 
-            $fichier = $_FILES['fichier']['name'] ?? null;
+        $idDepot = $_GET['iddepot'] ?? null; // Récupération de l'idDepot depuis la requête GET
+        $this->vue_etudiant->afficherFormulaireDepot($idDepot); // Afficher le formulaire
     
-            $cheminUpload = "uploads/" . basename($fichier);
-
-            if (move_uploaded_file($_FILES['fichier']['tmp_name'], $cheminUpload)) {
-                $date_depot = date('d-m-Y'); 
-                $this->modele_etudiant->ajouterDepot($idDepot, $idEtud, $fichier, $date_depot);
-                echo "Fichier déposé avec succès !";
-            } 
-        } else {
-            $idDepot = $_GET['idDepot'] ?? null;
-            $this->vue_etudiant->afficherFormulaireDepot($idDepot);
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') { // Vérification si la requête est POST
+            $idEtud = $_SESSION['login'] ?? null; // L'ID de l'étudiant connecté
+            $idDepot = $_POST['iddepot'] ?? null; // Récupération de l'ID du dépôt depuis le formulaire
+    
+            // Vérifie si un fichier a été soumis
+            if (isset($_FILES['fichierssss']) && $_FILES['fichierssss']['error'] === UPLOAD_ERR_OK) {
+                $fileTmpPath = $_FILES['fichierssss']['tmp_name']; // Chemin temporaire du fichier
+    
+                // Enregistrer le chemin temporaire dans la base de données
+                $date_depot = date('Y-m-d'); // Date actuelle pour l'enregistrement
+                if ($idEtud && $idDepot) {
+                    if ($this->modele_etudiant->ajouterDepot($idDepot, $idEtud, $fileTmpPath, $date_depot)) {
+                        echo "<p style='color: green;'>Le chemin temporaire du fichier a été enregistré dans la base de données avec succès !</p>";
+                    } else {
+                        echo "<p style='color: red;'>Erreur lors de l'enregistrement dans la base de données.</p>";
+                    }
+                } else {
+                    echo "<p style='color: red;'>Erreur : Informations manquantes (ID étudiant ou ID dépôt).</p>";
+                }
+            } else {
+                echo "<p style='color: red;'>Aucun fichier n'a été déposé ou une erreur est survenue.</p>";
+            }
         }
     }
+
+    
     
 
     public function vueFormGroupe(){
@@ -112,5 +133,8 @@ class Cont_etudiant {
             $this->vue_etudiant->formGroupe($this->modele_etudiant->getListeEtudiantParSem($_SESSION['semestre']));
         }
     }
+
+    
+    
 }
 ?>

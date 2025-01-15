@@ -26,12 +26,17 @@ class vue_etudiant {
         echo "</ul>";
     }
    
-    public function afficherFormulaireDepot() {
-        echo "<h1>Déposer un fichier</h1>";
-        echo "<form method='POST' enctype='multipart/form-data'>";
-        echo "<label>Fichier :</label><input type='file' name='fichier' required><br>";
-        echo "<button type='submit'>Déposer</button>";
+    public function afficherFormulaireDepot($idDepot) {
+        echo '<h1>Déposer un fichier</h1>
+        <form action="index.php?module=mod_etudiant&action=deposer" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="idDepot" value="' . htmlspecialchars($idDepot) . '">
+            <label for="fichier">Fichier :</label>
+            <input type="file"  name="fichierssss" required>
+            <br>
+            <button type="submit">Déposer</button>
+        </form>';
     }
+    
 
     public function affichelisteSAE($titre, $liste, $action) {
         if (empty($liste)) {
