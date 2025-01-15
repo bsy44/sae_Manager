@@ -181,7 +181,5 @@ class Cont_enseignant{
             echo "Erreur lors de l'envoie du formulaire.";
         }
     }
-
-
 }
 ?>

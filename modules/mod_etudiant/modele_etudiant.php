@@ -49,13 +49,13 @@ class modele_etudiant extends connexion{
     }
 
     public function getCheckListe($login, $idProjet){
-        $requete  = self::$bdd->prepare('select * from checkListe where idGroupe = (select idGroupe from groupe where idEtu = (select idEtu from etudiant where login = ?) and idProjet = ?)');
+        $requete  = self::$bdd->prepare('select * from checkListe where idGroupe = (select idGroupe from groupe where idEtudiant  = (select idEtu from etudiant where login = ?) and idProjet = ?)');
         $requete->execute([$login, $idProjet]);
         return $requete->fetchAll();
     }
 
     public function ajoutcheckliste($login, $msg){
-        $req = self::$bdd->prepare('INSERT INTO checkListe (idGroupe, msg) values ((select idgroupe from groupe where idEtu = (select idEtu from etudiant where login = ?)), ?)');
+        $req = self::$bdd->prepare('INSERT INTO checkListe (idGroupe, msg) values ((select idgroupe from groupe where idEtudiant = (select idEtu from etudiant where login = ?)), ?)');
         return $req->execute([$login, $msg]);
     }
 }

@@ -38,7 +38,7 @@ class Cont_etudiant {
                 $this->formGroupe();
                 break;
             case "formpropgrp" :
-                $this->vue_etudiant->formGroupe($this->modele_etudiant->getListeEtudiant());
+                $this->vue_etudiant->formGroupe($this->modele_etudiant->getListeEtudiantParSem($_SESSION['semestre']));
                 break;
             case "consultsae":
                 $this->afficherDepots();
@@ -60,21 +60,6 @@ class Cont_etudiant {
         $this->vue_etudiant->menu();
         $this->vue_etudiant->affichelisteSAE("En cours", $this->modele_etudiant->getlisteSAE($_SESSION['login']), "consultsae");
         $this->vue_etudiant->affichelisteSAE("En attente de propositon de groupe", $this->modele_etudiant->getListeSaeSansGroupe($_SESSION['login']), "formpropgrp");
-        
-    }
-
-    public function formGroupe(){
-        for ($i = 1; $i <= 4; $i++) {
-            if (isset($_POST["idEtu{$i}"])) {
-                $idEtudiant = isset($_POST["idEtu{$i}"]) ? $_POST["idEtu{$i}"] : exit; 
-                if($this->modele_etudiant->insertionGrpTemporaire($idEtudiant, $_SESSION['idProjet'])){
-                    $this->afficher();
-                }
-                else{
-                    $this->vue_etudiant->formGroupe($this->modele_etudiant->getPrenomEtudiant());
-                }
-            }
-        }
         
     }
 
@@ -101,31 +86,7 @@ class Cont_etudiant {
             $this->vue_etudiant->afficherFormulaireDepot($idDepot);
         }
     }
-    public function afficher(){
-
-        $this->vue_etudiant->menu();
-        $this->vue_etudiant->affichelisteSAE("En cours", $this->modele_etudiant->getlisteSAE($_SESSION['login']), "consultsae");
-        $this->vue_etudiant->affichelisteSAE("En attente de propositon de groupe", $this->modele_etudiant->getListeSaeSansGroupe($_SESSION['login']), "formpropgrp");
-    }
-
-    public function exec(){
-        switch($this->action){
-            case "Bienvenue":
-                $this->afficher();
-                break;
-            case 'envoieProp' : 
-                $this->formGroupe();
-                break;
-            case "formpropgrp" :
-                $this->vue_etudiant->formGroupe($this->modele_etudiant->getListeEtudiant());
-            case "consultsae":
-                $this->afficherDepots();
-                break;
-            case "consulterdepot":
-                $this->deposerFichier();
-                break;  
-        }
-    }
+    
 
     public function vueFormGroupe(){
         $semestre = $_SESSION['semestre'];

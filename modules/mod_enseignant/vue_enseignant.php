@@ -224,9 +224,5 @@ class vue_enseignant{
 
         echo "<a href='index.php?module=mod_enseignant&action=consulterGroupe'>Retour</a>";
     }
-
-    public function consulterGroupe($liste){
-
-    }
 }
 ?>
